@@ -1,11 +1,19 @@
 // TODO
+
+// 
+
 // En passant
 // Castling
 // check state of game from websocket
 // move validator
 
+let doc;
 let board = [];
 let move = 0;
+let draggedPiece = undefined;
+let startPOS = -1;
+let capturedByWht = [];
+let capturedByBlk = [];
 
 const pieces = {
     pawn: {
@@ -37,7 +45,9 @@ const pieces = {
         points: 0,
         name: "king",
         letter: "K"
-    }};
+    },
+    ALL: ['p', 'r', 'n', 'b', 'q', 'k']
+};
 
 // squares to notation
 const a = [1, 2, 3, 4, 5, 6, 7, 8];
@@ -61,15 +71,18 @@ let whtChk = false;
 let whtLose = false;
 let whtReserve = [];
 
-export function Main(newGame, from, to) {
+export function Main(newGame, move, dom) {
     // if websocket is open and game is running we dont need to do this
     // reset board
     if (newGame) {
-        board.length = [];
-        initializeBoard(board);
+        initializeBoard();
     }
 
-    Game(from, to);
+    doc = dom;
+    // move is unused logic
+    // this is a place holder for later implementation of notation
+    move = {from: "a2", to: "a4"};
+    Game(move);
 
     // while (!(whtLose && blkLose)) {
     //     checkGameState();  // Check for check/checkmate after each move
@@ -83,33 +96,132 @@ export function Main(newGame, from, to) {
     }
 }
 
-export function initializeBoard(board) {
+export function createBoard(document) {
+    let gameboard = document.getElementById("gameboard");
+    board.forEach((startPiece, i) => {
+        const square = document.createElement("div");
+        square.setAttribute("square-id", i);
+
+        // Determine if the piece is white (uppercase) or black (lowercase)
+        const isWhite = startPiece === startPiece.toUpperCase();
+        const pieceType = startPiece.toLowerCase();
+
+        // Create an image element for the piece if it's a valid piece letter
+        if (startPiece !== "") {
+            const img = document.createElement("img");
+
+            // Map piece types to image URLs (replace with actual paths or URLs)
+            const pieceImages = {
+                white: {
+                    p: "https://upload.wikimedia.org/wikipedia/commons/0/04/Chess_plt60.png",
+                    r: "https://upload.wikimedia.org/wikipedia/commons/5/5c/Chess_rlt60.png",
+                    n: "https://upload.wikimedia.org/wikipedia/commons/2/28/Chess_nlt60.png",
+                    b: "https://upload.wikimedia.org/wikipedia/commons/9/9b/Chess_blt60.png",
+                    q: "https://upload.wikimedia.org/wikipedia/commons/4/49/Chess_qlt60.png",
+                    k: "https://upload.wikimedia.org/wikipedia/commons/3/3b/Chess_klt60.png"
+                },
+                black: {
+                    p: "https://upload.wikimedia.org/wikipedia/commons/c/cd/Chess_pdt60.png",
+                    r: "https://upload.wikimedia.org/wikipedia/commons/a/a0/Chess_rdt60.png",
+                    n: "https://upload.wikimedia.org/wikipedia/commons/f/f1/Chess_ndt60.png",
+                    b: "https://upload.wikimedia.org/wikipedia/commons/8/81/Chess_bdt60.png",
+                    q: "https://upload.wikimedia.org/wikipedia/commons/a/af/Chess_qdt60.png",
+                    k: "https://upload.wikimedia.org/wikipedia/commons/e/e3/Chess_kdt60.png"
+                }
+            };
+            // Set the image source based on the piece type and color
+            img.src = isWhite ? pieceImages.white[pieceType] : pieceImages.black[pieceType];
+            img.className = "chess-piece";
+            img.draggable = true;
+            img.alt = pieceType;
+
+            square.appendChild(img);  // Add the image to the square
+        }
+
+        // Set the square color based on its position
+        square.classList.add("square");
+        const row = Math.floor(i / 8);
+        if (row % 2 === 0) {
+            square.classList.add(i % 2 === 0 ? "white-square" : "black-square");
+        } else {
+            square.classList.add(i % 2 === 0 ? "black-square" : "white-square");
+        }
+
+        gameboard.append(square);  // Append the square to the gameboard
+    });
+}
+
+export function dragging(document){
+    let piece = document.getElementsByClassName("square");
+
+    console.log(piece.length);
+    for (let i = 0; i < piece.length; i++) {
+        piece[i].addEventListener("dragstart", dragStart);
+        piece[i].addEventListener("dragover", dragOver);
+        piece[i].addEventListener("drop", dragDrop);
+    }
+}
+
+function dragStart(e) {
+    draggedPiece = e.target;
+    startPOS = draggedPiece.parentNode.getAttribute("square-id");
+    console.log(startPOS);
+}
+
+function dragDrop(e) {
+    e.stopPropagation();
+    let destination = e.target;
+
+    if (destination.nodeName === "DIV") {
+        destination.append(draggedPiece);
+    } 
+    
+    else if (destination.nodeName === "IMG") {
+        let parent = destination.parentNode;
+        if (wht2Move && pieces.ALL.includes(destination.alt)) {
+            capturedByWht.push(destination);
+            destination.remove();
+            parent.append(draggedPiece);
+        } else if (!pieces.ALL.includes(destination.alt)){
+            capturedByBlk.push(destination);
+            destination.remove();
+            parent.append(draggedPiece);
+        }
+
+    } else {
+        alert("Where are you trying to move this piece???");
+    }
+}
+
+function dragOver(e) {
+    e.preventDefault();
+}
+
+export function initializeBoard() {
+    board = [];
+
     // fill upper pieces blk
-    board.push([ pieces.rook.letter.toLowerCase(), pieces.knight.letter.toLowerCase(), pieces.bishop.letter.toLowerCase(), pieces.queen.letter.toLowerCase(), pieces.king.letter.toLowerCase(), pieces.bishop.letter.toLowerCase(), pieces.knight.letter.toLowerCase(), pieces.rook.letter.toLowerCase()]);
+    board.push( pieces.rook.letter.toLowerCase(), pieces.knight.letter.toLowerCase(), pieces.bishop.letter.toLowerCase(), pieces.queen.letter.toLowerCase(), pieces.king.letter.toLowerCase(), pieces.bishop.letter.toLowerCase(), pieces.knight.letter.toLowerCase(), pieces.rook.letter.toLowerCase());
 
     // fill pawns blk
-    board.push([pieces.pawn.letter.toLowerCase(), pieces.pawn.letter.toLowerCase(),pieces.pawn.letter.toLowerCase(),pieces.pawn.letter.toLowerCase(),pieces.pawn.letter.toLowerCase(),pieces.pawn.letter.toLowerCase(),pieces.pawn.letter.toLowerCase(),pieces.pawn.letter.toLowerCase()]);
+    board.push(pieces.pawn.letter.toLowerCase(), pieces.pawn.letter.toLowerCase(),pieces.pawn.letter.toLowerCase(),pieces.pawn.letter.toLowerCase(),pieces.pawn.letter.toLowerCase(),pieces.pawn.letter.toLowerCase(),pieces.pawn.letter.toLowerCase(),pieces.pawn.letter.toLowerCase());
 
     // fill empty
     for (let i = 0; i < 32; i++) {
-        if (i % 8 == 0 ) {
-            board.push(["", "", "", "", "", "", "", "",]);
-        }
+
+        board.push("");
     }
 
     // fill lower white
-    board.push([pieces.pawn.letter, pieces.pawn.letter,pieces.pawn.letter,pieces.pawn.letter,pieces.pawn.letter,pieces.pawn.letter,pieces.pawn.letter, pieces.pawn.letter]);
+    board.push(pieces.pawn.letter, pieces.pawn.letter,pieces.pawn.letter,pieces.pawn.letter,pieces.pawn.letter,pieces.pawn.letter,pieces.pawn.letter, pieces.pawn.letter);
     
     // fill upper white
-    board.push([
-        pieces.rook.letter, pieces.knight.letter, pieces.bishop.letter, pieces.queen.letter,pieces.king.letter, pieces.bishop.letter, pieces.knight.letter, pieces.rook.letter]
+    board.push(
+        pieces.rook.letter, pieces.knight.letter, pieces.bishop.letter, pieces.queen.letter,pieces.king.letter, pieces.bishop.letter, pieces.knight.letter, pieces.rook.letter
     );
-
-    return board;
 }
 
-
-function Game(from, to) {
+function Game({from, to}) {
     if (wht2Move) {
         whiteMove(from, to);
     }
@@ -117,19 +229,61 @@ function Game(from, to) {
         blackMove(from, to);
     }
 
-    checkGameState();
+    // checkGameState();
 }
 
+function validMove() {
+
+}
+
+
+// dont need anything below
+
+const notation = {
+    a: 0,
+    b: 1,
+    c: 2,
+    d: 3,
+    e: 4,
+    f: 5,
+    g: 6,
+    h: 7
+};
+
+// not needed
 function whiteMove(from, to) {
+
+    console.log(board);
+
     console.log("White's Move");
 
+    let fromX = notation[from[0]];
+    let fromY = from[1];
 
+    let toX = notation[to[0]];
+    let toY = to[1];
+
+    console.log(board[fromY][fromX]);
+    // validate move and contiue below
+    // board[toX][toY] = board[fromX][fromY];
+    // board[fromX][fromY] = ''
+
+    console.log(board);
+
+    // let row = from[0]; // 'a', 'b', 'c', etc.
+    // let col = from[1]; // '1', '2', '3', etc.
+
+    // // Access notation dynamically using bracket notation
+    // console.log(`Row: ${pos}, Col: ${col}`);
+    // console.log(notation);
+    // console.log(notation[row][col]); 
+    wht2Move = false;
 }
 
 function blackMove(from, to) {
     console.log("White's Move");
 
-
+    wht2Move = true;
 }
 
 // Function to simulate white's move
