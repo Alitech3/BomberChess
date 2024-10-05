@@ -23,7 +23,7 @@
     "@next/next/no-page-custom-font": "off",
     "indent": [
       "warn",
-      2
+      4
     ],
     "react/react-in-jsx-scope": "off",
     "linebreak-style": [
