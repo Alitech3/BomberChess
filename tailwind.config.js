@@ -10,7 +10,7 @@ module.exports = {
     extend: {
       backgroundImage: {
         'bomb-pattern': "url('../../assets/BomberLogo.png')",
-        'footer-texture': "url('/img/footer-texture.png')",
+        'explosion': "url('../../assets/Explosion.png')"
       },
       colors: {
 
