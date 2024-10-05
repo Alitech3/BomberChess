@@ -67,7 +67,7 @@ wss.on("connection", (ws) => {
     const data = JSON.parse(message);
 
     // Broadcast the received message to all players
-    broadcast(data);  // <-- This line broadcasts the received message to all players
+    broadcast(data); // <-- This line broadcasts the received message to all players
 
     // Handle player moves on a specific board
     if (data.type === "move") {
@@ -112,19 +112,29 @@ wss.on("connection", (ws) => {
       const board = data.board === 1 ? "board1" : "board2";
       const playerColor = data.color;
 
-      // Check if the player has the piece they're trying to drop
+      // Determine the team and player
       const team = playerColor === "white" ? "team1" : "team2";
       const player = board === "board1" ? "player1" : "player2";
-      const capturedList = capturedPieces[team][player];
+      
+      // Check if the piece to drop is from the player's own captured pieces or their teammate's
+      let capturedList = [];
+      if (player === "player1") {
+        capturedList = capturedPieces[team].player1.concat(capturedPieces[team].player2);
+      } else {
+        capturedList = capturedPieces[team].player2.concat(capturedPieces[team].player1);
+      }
 
+      // Check if the player has the piece they're trying to drop
       if (capturedList.includes(data.piece)) {
         // Ensure the move is legal (no check, no placing on an occupied square)
         const validDrop = validateDrop(board, data.piece, data.position);
 
         if (validDrop) {
-          // Remove the dropped piece from the player's captured list
-          const index = capturedList.indexOf(data.piece);
-          if (index > -1) capturedList.splice(index, 1);
+          // If it's a teammate's piece, remove it from the teammate's captured list
+          const teammate = player === "player1" ? "player2" : "player1";
+          const teammateCapturedList = capturedPieces[team][teammate];
+          const index = teammateCapturedList.indexOf(data.piece);
+          if (index > -1) teammateCapturedList.splice(index, 1); // Remove from teammate's list
 
           // Notify players about the dropped piece
           broadcastToBoard(board, {
@@ -183,8 +193,7 @@ function sendToPlayer(player, message) {
 
 // Placeholder for drop validation logic (implement based on your UI logic)
 function validateDrop(board, piece, position) {
-  
-  return true;  // Always return true for testing
+  return true; // Always return true for testing
 }
 
 // Placeholder for checkmate detection logic (implement based on UI feedback)
