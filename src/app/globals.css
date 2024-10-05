@@ -1,3 +1,37 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+#outline
+{ 
+	border: thin solid black; 
+    border-radius: 25px;
+	width:500px; 
+	height:500px; 
+	text-align: justify; 
+	background-color: #FFA500; 
+	word-wrap: break-word; /* words won't go from the boundry */ 
+	margin: 30px 50px auto; 
+	/* top, left, bottom*/ 
+	padding: 30px 50px 70px; 
+	float: left; 
+}
+
+#row {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 4px;
+  }
+  
+  /* Create four equal columns that sits next to each other */
+#column {
+    flex: 25%;
+    max-width: 25%;
+    padding: 0 4px;
+}
+
+#button {
+    box-sizing: border-box;
+    padding: 10px;
+}
