@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+/* @tailwind utilities; */
+
+#main {
+    @apply
+        w-fit
+        m-auto
+        flex
+        justify-center
+        items-center
+        h-screen
+}
+#gameboard {
+    @apply
+    overflow-hidden
+    flex
+    flex-wrap
+    h-[320px]
+    w-[320px]
+}
+#gameboard > * {
+    @apply
+        w-[40px]
+        h-[40px]
+        relative
+}
+.white-square {
+    @apply
+        w-10
+        h-auto
+        bg-orange-300
+}
+.black-square {
+    @apply
+        w-10
+        h-auto
+        bg-amber-900
+}
