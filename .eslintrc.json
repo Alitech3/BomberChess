@@ -28,7 +28,7 @@
     "react/react-in-jsx-scope": "off",
     "linebreak-style": [
       "warn",
-      "unix"
+      "windows"
     ],
     "quotes": [
       "warn",
