@@ -37,60 +37,7 @@
     </div>
   </div>
 
-  <script>
-    const socket = new WebSocket('ws://localhost:8080');
-
-    socket.onopen = function () {
-      console.log("Connected to WebSocket server");
-    };
-
-    socket.onmessage = function (event) {
-      const data = JSON.parse(event.data);
-
-      switch (data.type) {
-        case 'init':
-          handleInit(data);
-          break;
-        case 'start':
-          console.log('Game started:', data.message);
-          break;
-        case 'move':
-          handleMove(data);
-          break;
-        case 'capture':
-          handleCapture(data);
-          break;
-        case 'drop':
-          handleDrop(data);
-          break;
-        case 'end':
-          alert(data.message);
-          break;
-        default:
-          console.error('Unknown message type:', data);
-      }
-    };
-
-    function handleInit(data) {
-      const { player, board } = data;
-
-      // Set the current player's active board to be bigger
-      if (board === 1) {
-        document.getElementById('board1-container').classList.add('big-board');
-        document.getElementById('board2-container').classList.add('small-board');
-      } else {
-        document.getElementById('board2-container').classList.add('big-board');
-        document.getElementById('board1-container').classList.add('small-board');
-      }
-    }
-
-    socket.onclose = function () {
-      console.log('Disconnected from WebSocket server');
-    };
-
-    socket.onerror = function (error) {
-      console.error('WebSocket error:', error);
-    };
-  </script>
+  <!-- Link to the external JavaScript file -->
+  <script src="script.js"></script>
 </body>
 </html>
