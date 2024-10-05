@@ -19,36 +19,88 @@ let currentTurn = {
   board2: "white", // Board 2: T1-P2 vs T2-P2
 };
 
+// To handle pausing and reconnection
+let pausedGames = false;
+let disconnectedPlayer = null;
+let gameState = {}; // Store the state of the game for restoring upon reconnect
+
 // Handle incoming WebSocket connections
 wss.on("connection", (ws) => {
+  // If a player reconnects after a game pause
+  if (pausedGames && disconnectedPlayer) {
+    // Reassign the disconnected player to their previous role
+    if (disconnectedPlayer === "player1") {
+      teams.team1.player1 = ws;
+    } else if (disconnectedPlayer === "player2") {
+      teams.team1.player2 = ws;
+    } else if (disconnectedPlayer === "player3") {
+      teams.team2.player1 = ws;
+    } else if (disconnectedPlayer === "player4") {
+      teams.team2.player2 = ws;
+    }
+
+    // Restore the game state to the reconnected player
+    ws.send(
+      JSON.stringify({
+        type: "restore",
+        message: "Welcome back! Restoring your game state...",
+        gameState: getStoredGameState(),
+      })
+    );
+
+    // Clear the paused state and notify all players
+    pausedGames = false;
+    disconnectedPlayer = null;
+
+    broadcast({
+      type: "resume",
+      message: "Player has reconnected. The game is resuming.",
+    });
+    return;
+  }
+
   if (players.length < 4) {
     players.push(ws);
 
     // Assign players to their respective teams and roles
-    let team, player, board, color;
+    let player1, player2, player3, player4, team, color, board;
+
     if (players.length === 1) {
-      team = "team1"; player = "player1"; color = "black"; board = 1;
+      player1 = ws; // First player
+      team = "team1";
+      color = "white";
+      board = 1;
       teams.team1.player1 = ws;
     } else if (players.length === 2) {
-      team = "team1"; player = "player2"; color = "white"; board = 2;
+      player2 = ws; // Second player
+      team = "team1";
+      color = "black";
+      board = 2;
       teams.team1.player2 = ws;
     } else if (players.length === 3) {
-      team = "team2"; player = "player1"; color = "white"; board = 1;
+      player3 = ws; // Third player
+      team = "team2";
+      color = "black";
+      board = 1;
       teams.team2.player1 = ws;
     } else if (players.length === 4) {
-      team = "team2"; player = "player2"; color = "black"; board = 2;
+      player4 = ws; // Fourth player
+      team = "team2";
+      color = "white";
+      board = 2;
       teams.team2.player2 = ws;
     }
 
     // Send the initial game setup info to the player
-    ws.send(JSON.stringify({
-      type: "init",
-      team,
-      player,
-      color,
-      board,
-      capturedPieces: capturedPieces[team][player],
-    }));
+    ws.send(
+      JSON.stringify({
+        type: "init",
+        team,
+        color,
+        board,
+        capturedPieces: capturedPieces[team][`player${board}`],
+      })
+    );
 
     // Notify all players once the game is ready
     if (players.length === 4) {
@@ -103,7 +155,8 @@ wss.on("connection", (ws) => {
         }
 
         // Switch turn
-        currentTurn[board] = currentTurn[board] === "white" ? "black" : "white";
+        currentTurn[board] =
+          currentTurn[board] === "white" ? "black" : "white";
       }
     }
 
@@ -115,13 +168,17 @@ wss.on("connection", (ws) => {
       // Determine the team and player
       const team = playerColor === "white" ? "team1" : "team2";
       const player = board === "board1" ? "player1" : "player2";
-      
+
       // Check if the piece to drop is from the player's own captured pieces or their teammate's
       let capturedList = [];
       if (player === "player1") {
-        capturedList = capturedPieces[team].player1.concat(capturedPieces[team].player2);
+        capturedList = capturedPieces[team].player1.concat(
+          capturedPieces[team].player2
+        );
       } else {
-        capturedList = capturedPieces[team].player2.concat(capturedPieces[team].player1);
+        capturedList = capturedPieces[team].player2.concat(
+          capturedPieces[team].player1
+        );
       }
 
       // Check if the player has the piece they're trying to drop
@@ -153,15 +210,45 @@ wss.on("connection", (ws) => {
 
   // Handle player disconnect
   ws.on("close", () => {
-    players = players.filter(player => player !== ws);
-    broadcast({ type: "end", message: "A player has disconnected. Game over." });
+    // Identify which player disconnected
+    if (ws === teams.team1.player1) disconnectedPlayer = "player1";
+    else if (ws === teams.team1.player2) disconnectedPlayer = "player2";
+    else if (ws === teams.team2.player1) disconnectedPlayer = "player3";
+    else if (ws === teams.team2.player2) disconnectedPlayer = "player4";
+
+    // Mark the game as paused
+    pausedGames = true;
+
+    // Store current game state for reconnection
+    storeGameState();
+
+    // Notify remaining players that the game is paused
+    broadcast({
+      type: "pause",
+      message: `${disconnectedPlayer} has disconnected. The game is paused.`,
+    });
   });
 });
 
+// Store game state for reconnection
+function storeGameState() {
+  gameState = {
+    players: [...players],
+    teams: { ...teams },
+    capturedPieces: { ...capturedPieces },
+    currentTurn: { ...currentTurn },
+  };
+}
+
+// Retrieve stored game state for reconnection
+function getStoredGameState() {
+  return gameState;
+}
+
 // Broadcast to all players
 function broadcast(message) {
-  players.forEach(player => {
-    if (player.readyState === WebSocket.OPEN) {
+  players.forEach((player) => {
+    if (player && player.readyState === WebSocket.OPEN) {
       player.send(JSON.stringify(message));
     }
   });
@@ -201,3 +288,4 @@ function checkForCheckmate(board) {}
 
 // Notify that the WebSocket server is running
 console.log("WebSocket server running on ws://localhost:8080");
+

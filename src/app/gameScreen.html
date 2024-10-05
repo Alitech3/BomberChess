@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chess Game Screen</title>
+  <link rel="stylesheet" href="gameScreen.css">
+</head>
+<body>
+  <div class="chess-game-container">
+    <div class="boards">
+      <!-- Chess Board 1 -->
+      <div class="chess-board-container" id="board1-container">
+        <div class="player-top" id="game1-white-label">
+          Player 1 (White)
+        </div>
+        <div class="chess-board" id="board1">
+          <!-- Chess Board 1 content goes here -->
+        </div>
+        <div class="player-bottom" id="game1-black-label">
+          Player 3 (Black)
+        </div>
+      </div>
+
+      <!-- Chess Board 2 -->
+      <div class="chess-board-container" id="board2-container">
+        <div class="player-top" id="game2-black-label">
+          Player 2 (Black)
+        </div>
+        <div class="chess-board" id="board2">
+          <!-- Chess Board 2 content goes here -->
+        </div>
+        <div class="player-bottom" id="game2-white-label">
+          Player 4 (White)
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const socket = new WebSocket('ws://localhost:8080');
+
+    socket.onopen = function () {
+      console.log("Connected to WebSocket server");
+    };
+
+    socket.onmessage = function (event) {
+      const data = JSON.parse(event.data);
+
+      switch (data.type) {
+        case 'init':
+          handleInit(data);
+          break;
+        case 'start':
+          console.log('Game started:', data.message);
+          break;
+        case 'move':
+          handleMove(data);
+          break;
+        case 'capture':
+          handleCapture(data);
+          break;
+        case 'drop':
+          handleDrop(data);
+          break;
+        case 'end':
+          alert(data.message);
+          break;
+        default:
+          console.error('Unknown message type:', data);
+      }
+    };
+
+    function handleInit(data) {
+      const { player, board } = data;
+
+      // Set the current player's active board to be bigger
+      if (board === 1) {
+        document.getElementById('board1-container').classList.add('big-board');
+        document.getElementById('board2-container').classList.add('small-board');
+      } else {
+        document.getElementById('board2-container').classList.add('big-board');
+        document.getElementById('board1-container').classList.add('small-board');
+      }
+    }
+
+    socket.onclose = function () {
+      console.log('Disconnected from WebSocket server');
+    };
+
+    socket.onerror = function (error) {
+      console.error('WebSocket error:', error);
+    };
+  </script>
+</body>
+</html>
