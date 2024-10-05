@@ -26,7 +26,7 @@ export default function Create() {
                             focus:ring-yellow-100 focus:border-yellow-100 block w-full p-2.5" placeholder="Username" val={user} onUserChange ={(e) => setUser(e.target.value)} />
                     </div>
 
-                  <button className="p-12 bg-yellow-500 text-white rounded-full shadow-md hover:bg-red-600 transition hover:text-black duration-200
+                  <button className="p-12 bg-red-500 text-white rounded-full shadow-md hover:bg-red-600 transition hover:text-black duration-200
                                     outline-none bg-red-500 border-4 border-red-800">
                         <Link className = "text-xl font-bold tracking-widest px-10"
                             href={"./lobby"}

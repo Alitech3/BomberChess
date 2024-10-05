@@ -20,7 +20,7 @@ export default function Home() {
             </div>
               
             <div className="flex flex-col justify-center space-y-12"> 
-              <button className="p-12 bg-yellow-500 text-white rounded-full shadow-md hover:bg-red-600 transition hover:text-black duration-200
+              <button className="p-12 bg-red-500 text-white rounded-full shadow-md hover:bg-red-600 transition hover:text-black duration-200
                                 outline-none bg-red-500 border-4 border-red-800">
                     <Link className = "text-xl font-bold tracking-widest px-10" 
                         href={"/create"}
@@ -28,7 +28,7 @@ export default function Home() {
                         CREATE
                     </Link>
               </button>
-              <button className="p-12 bg-yellow-500 text-white rounded-full shadow-md hover:bg-red-600 transition hover:text-black duration-200
+              <button className="p-12 bg-red-500 text-white rounded-full shadow-md hover:bg-red-600 transition hover:text-black duration-200
                                 outline-none bg-red-500 border-4 border-red-800">
                     <Link className = "text-xl font-bold tracking-widest px-10"
                         href={"/join"}
