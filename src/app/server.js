@@ -47,7 +47,7 @@ wss.on("connection", (ws) => {
       player,
       color,
       board,
-      capturedPieces: capturedPieces[team][player], // Send their captured pieces if any
+      capturedPieces: capturedPieces[team][player],
     }));
 
     // Notify all players once the game is ready
@@ -65,6 +65,9 @@ wss.on("connection", (ws) => {
   // Handle incoming moves
   ws.on("message", (message) => {
     const data = JSON.parse(message);
+
+    // Broadcast the received message to all players
+    broadcast(data);  // <-- This line broadcasts the received message to all players
 
     // Handle player moves on a specific board
     if (data.type === "move") {
@@ -178,16 +181,14 @@ function sendToPlayer(player, message) {
   }
 }
 
-// // Placeholder for drop validation logic (implement based on your UI logic)
-// function validateDrop(board, piece, position) {
-//   // UI will handle the actual validation of legal drops (e.g., no check, no overlap)
-//   // Return true for now
-//   return true;
-// }
+// Placeholder for drop validation logic (implement based on your UI logic)
+function validateDrop(board, piece, position) {
+  
+  return true;  // Always return true for testing
+}
 
-// // Placeholder for checkmate detection logic (implement based on UI feedback)
-// function checkForCheckmate(board) {
-//   // UI will handle checkmate detection and notify the server
-// }
+// Placeholder for checkmate detection logic (implement based on UI feedback)
+function checkForCheckmate(board) {}
 
+// Notify that the WebSocket server is running
 console.log("WebSocket server running on ws://localhost:8080");
