@@ -98,11 +98,18 @@ export function Main(newGame, move, dom) {
     }
 }
 
-export function createBoard(document) {
-    let gameboard = document.getElementById("gameboard");
-    console.log(gameboard);
+export function createBoard(document, boards) {
+    for(let i = 0; i < board.length; i++) {
+        let gameboard = document.getElementById(boards[i]);
+        if (!gameboard) {
+            return;
+        }
 
-    board.forEach((startPiece, i) => {
+        if (i % 2 !== 0) {
+            board.reverse();
+        }
+
+        board.forEach((startPiece, i) => {
         const square = document.createElement("div");
         square.setAttribute("square-id", i);
 
@@ -151,7 +158,8 @@ export function createBoard(document) {
         }
 
         gameboard.append(square);  // Append the square to the gameboard
-    });
+        });
+    }
 }
 
 export function dragging(document){
