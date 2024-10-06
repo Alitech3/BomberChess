@@ -60,6 +60,8 @@ const g = [1, 2, 3, 4, 5, 6, 7, 8];
 const h = [1, 2, 3, 4, 5, 6, 7, 8];
 
 let wht2Move = true;
+let successfulMove = false;
+
 
 let blkPoints = 0;
 let blkChk = false;
@@ -164,32 +166,77 @@ export function dragging(document){
 
 function dragStart(e) {
     draggedPiece = e.target;
+    console.log(draggedPiece.parentNode);
     startPOS = draggedPiece.parentNode.getAttribute("square-id");
-    console.log(startPOS);
+    //console.log(startPOS);
 }
 
 function dragDrop(e) {
     e.stopPropagation();
+    let current = startPOS;
     let destination = e.target;
+    console.log(destination);
 
-    if (destination.nodeName === "DIV") {
-        destination.append(draggedPiece);
-    } 
-    
-    else if (destination.nodeName === "IMG") {
-        let parent = destination.parentNode;
-        if (wht2Move && pieces.ALL.includes(destination.alt)) {
-            capturedByWht.push(destination);
-            destination.remove();
-            parent.append(draggedPiece);
-        } else if (!pieces.ALL.includes(destination.alt)){
-            capturedByBlk.push(destination);
-            destination.remove();
-            parent.append(draggedPiece);
+    console.log("is White's turn? " + wht2Move);
+    if (wht2Move) {
+        if (destination.nodeName === "DIV"){
+            destination.append(draggedPiece);
+            if (validMove(pieces.ALL.includes(destination.alt), draggedPiece.alt, current, destination.getAttribute("square-id"), false)){
+                console.log(777);
+            }
+            wht2Move = false;
+        } else if (destination.nodeName === "IMG"){
+            let parent = destination.parentNode;
+            if (pieces.ALL.includes(destination.alt)) {
+                capturedByWht.push(destination);
+                if (validMove(pieces.ALL.includes(destination.alt), destination.alt, current, destination.getAttribute("square-id"), true)){
+                    console.log(888);
+                }
+                destination.remove();
+                parent.append(draggedPiece);
+                wht2Move = false;
+            } else if (!pieces.ALL.includes(destination.alt)){
+                /*
+                capturedByBlk.push(destination);
+                if (validMove(pieces.ALL.includes(destination.alt), destination.alt, current, destination.getAttribute("square-id"), true)){
+                    console.log(999);
+                }
+                destination.remove();
+                parent.append(draggedPiece);
+                wht2Move = false;
+                */
+            }
         }
-
+        return;
     } else {
-        alert("Where are you trying to move this piece???");
+        if (destination.nodeName === "DIV"){
+            destination.append(draggedPiece);
+            if (validMove(pieces.ALL.includes(destination.alt), draggedPiece.alt, current, destination.getAttribute("square-id"), false)){
+                console.log(777);
+            }
+            wht2Move = true;
+        } else if (destination.nodeName === "IMG"){
+            let parent = destination.parentNode;
+            if (pieces.ALL.includes(destination.alt)) {
+                /*
+                capturedByWht.push(destination);
+                if (validMove(pieces.ALL.includes(destination.alt), destination.alt, current, destination.getAttribute("square-id"), true)){
+                    console.log(888);
+                }
+                destination.remove();
+                parent.append(draggedPiece);
+                wht2Move = true;
+                */
+            } else if (!pieces.ALL.includes(destination.alt)){
+                capturedByBlk.push(destination);
+                if (validMove(pieces.ALL.includes(destination.alt), destination.alt, current, destination.getAttribute("square-id"), true)){
+                    console.log(999);
+                }
+                destination.remove();
+                parent.append(draggedPiece);
+                wht2Move = true;
+            }
+        }
     }
 }
 
@@ -232,8 +279,74 @@ function Game({from, to}) {
     // checkGameState();
 }
 
-function validMove() {
-
+function validMove(isWhite, pieceType, current, destination, takenPiece) {
+    console.log("isWhite? " + isWhite);
+    console.log("C " + current);
+    console.log("D " + destination)
+    if (isWhite){
+        switch (pieceType) {
+            case "p":
+                if (takenPiece){
+                    if (destination == (current - 9) || (destination == (current - 7))){
+                        return true;
+                    }
+                } else {
+                    if (destination == (current - 8) || (destination == current - 16)){
+                        return true;
+                    }
+                }
+                break;
+            case "r":
+                if (Math.abs(destination % 8 == 0)){
+                        return true;
+                    }
+                if (Math.abs(destination - current <  8)){
+                    return true;
+                }
+                break;
+            case "n":
+                if (destination == (current - 17) ||
+                   (destination == (current - 15)) ||
+                   (destination == (current + 17))  ||
+                   (destination == (current + 15)) ||
+                   (destination == (current - 10)) ||
+                   (destination == (current + 10)) ||
+                   (destination == (current - 6)) ||
+                   (destination == (current + 6))){
+                    return true;
+                }
+                break;
+            case "b":
+                if (Math.abs(destination % 7 == 0)){
+                    return true;
+                }
+                break;
+            case "q":
+                if (Math.abs(destination % 8 == 0)){
+                    return true;
+                }
+                if (Math.abs(destination - current <  8)){
+                    return true;
+                }
+                if (Math.abs(destination % 7 == 0)){
+                    return true;
+                }
+                break;
+            case "k":
+                if (destination == (current + 1) ||
+                    (destination == (current - 1)) ||
+                    (destination == (current + 8)) ||
+                    (destination == (current - 8)) ||
+                    (destination == (current + 7)) ||
+                    (destination == (current - 7)) ||
+                    (destination == (current + 9)) ||
+                    (destination == (current - 9))){
+                    return true;
+                }
+                break;
+        }
+    }
+    return false;
 }
 
 
