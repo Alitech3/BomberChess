@@ -1,4 +1,6 @@
+'use client';
 import "./lobby.css";
+import Link from "next/link";
 
 export default function Home() {
 
@@ -36,7 +38,11 @@ export default function Home() {
                                 {/* </div> */}
                                 <button className="mt-5 px-8 py-5 bg-red-500 text-white rounded-full shadow-md hover:bg-red-600 transition hover:text-black duration-200
                                 outline-none bg-red-500 border-4 border-red-800 rounded-full text-3xl font-bold col-span-3">
-                                    START </button>
+                                <Link className = "text-xl font-bold tracking-widest px-5 w-5 h-5" 
+                                    href={"/game"}
+                                    id="game">
+                                START
+                                </Link></button>
                             </div>
                         </div >
                     </div>

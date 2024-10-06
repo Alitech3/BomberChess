@@ -196,7 +196,7 @@ function dragDrop(e) {
                 parent.append(draggedPiece);
                 wht2Move = false;
             } else if (!pieces.ALL.includes(destination.alt)){
-                /*
+                
                 capturedByBlk.push(destination);
                 if (validMove(pieces.ALL.includes(destination.alt), destination.alt, current, destination.getAttribute("square-id"), true)){
                     console.log(999);
@@ -204,7 +204,7 @@ function dragDrop(e) {
                 destination.remove();
                 parent.append(draggedPiece);
                 wht2Move = false;
-                */
+                
             }
         }
         return;
@@ -218,7 +218,7 @@ function dragDrop(e) {
         } else if (destination.nodeName === "IMG"){
             let parent = destination.parentNode;
             if (pieces.ALL.includes(destination.alt)) {
-                /*
+                
                 capturedByWht.push(destination);
                 if (validMove(pieces.ALL.includes(destination.alt), destination.alt, current, destination.getAttribute("square-id"), true)){
                     console.log(888);
@@ -226,7 +226,7 @@ function dragDrop(e) {
                 destination.remove();
                 parent.append(draggedPiece);
                 wht2Move = true;
-                */
+                
             } else if (!pieces.ALL.includes(destination.alt)){
                 capturedByBlk.push(destination);
                 if (validMove(pieces.ALL.includes(destination.alt), destination.alt, current, destination.getAttribute("square-id"), true)){
