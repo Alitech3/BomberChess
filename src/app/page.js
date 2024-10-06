@@ -1,8 +1,21 @@
 "use client";
-
 import Link from "next/link";
+import { useEffect } from "react";
+import io from 'socket.io-client';
 
 export default function Home() {
+
+    useEffect(() => {
+        const socket = io();
+    
+        socket.on("connect", () => {
+            console.log("Connected to server");
+        });
+
+        return () => {
+            socket.disconnect();
+        };
+    }, []);
 
     return (
         <main className="h-screen bg-center bg-gradient-to-tr from-green-700 to-green-400">

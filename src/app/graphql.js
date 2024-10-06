@@ -1,6 +1,6 @@
 const { ApolloServer, gql } = require("apollo-server");
 const mongoose = require("mongoose");
-const { User } = require("./db"); // Import User model from db.js
+const { User } = require("../../old/db"); // Import User model from db.js
 const { registerUser, loginUser } = require("./auth"); // Import functions from auth.js
 
 // MongoDB connection string

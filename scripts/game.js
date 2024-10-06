@@ -90,14 +90,16 @@ export function Main(newGame, move, dom) {
     // }
 
     if (whtLose) {
-        console.log("Black wins!");
+        window.alert("Black wins!");
     } else if (blkLose) {
-        console.log("White wins!");
+        window.alert("White wins!");
     }
 }
 
 export function createBoard(document) {
     let gameboard = document.getElementById("gameboard");
+    console.log(gameboard);
+
     board.forEach((startPiece, i) => {
         const square = document.createElement("div");
         square.setAttribute("square-id", i);
@@ -110,7 +112,6 @@ export function createBoard(document) {
         if (startPiece !== "") {
             const img = document.createElement("img");
 
-            // Map piece types to image URLs (replace with actual paths or URLs)
             const pieceImages = {
                 white: {
                     p: "https://upload.wikimedia.org/wikipedia/commons/0/04/Chess_plt60.png",

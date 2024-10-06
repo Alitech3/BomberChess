@@ -1,4 +1,4 @@
-const { User } = require("./db"); // Import User model
+const { User } = require("../../old/db"); // Import User model
 
 // Register a new user
 async function registerUser(username, password) {
