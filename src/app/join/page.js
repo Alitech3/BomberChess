@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 "use client";
 import { useState } from "react";
 import { doc, updateDoc, arrayUnion, getDoc } from "firebase/firestore";

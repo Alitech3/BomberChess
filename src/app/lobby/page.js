@@ -13,7 +13,7 @@ export default function Home() {
     useEffect(() => {
         setId(Atomid);
         console.log(id);
-    }, []);
+    }, [Atomid, id]);
     const queryLobbyById = async (lobbyId) => {
         try {
             // Reference to the lobby document by ID
@@ -52,13 +52,13 @@ export default function Home() {
                         <div className="flex justify-evenly items-center ">
                             <button className="m-3 px-2 py-1 bg-[#56b0ce] text-white shadow-md border-black border-2 text-3xl font-bold rounded-3xl hover:bg-red-600 transition hover:text-black duration-200"> 
                                 Player 1 </button>
-                                <button className="m-3 px-2 py-1 bg-[#56b0ce] text-white shadow-md border-black border-2 text-3xl font-bold rounded-3xl hover:bg-red-600 transition hover:text-black duration-200">  Player 2 </button>
+                            <button className="m-3 px-2 py-1 bg-[#56b0ce] text-white shadow-md border-black border-2 text-3xl font-bold rounded-3xl hover:bg-red-600 transition hover:text-black duration-200">  Player 2 </button>
                             <button className="px-3 py-1 bg-orange-600 text-white shadow-md border-black border-2 text-3xl font-bold rounded-3xl hover:bg-red-600 transition hover:text-black duration-200">  Rotate </button>
                             <button className="m-3 px-2 py-1 bg-[#56b0ce] text-white shadow-md border-black border-2 text-3xl font-bold rounded-3xl hover:bg-red-600 transition hover:text-black duration-200"> Player 3</button>
                             <button className="m-3 px-2 py-1 bg-[#56b0ce] text-white shadow-md border-black border-2 text-3xl font-bold rounded-3xl hover:bg-red-600 transition hover:text-black duration-200">Player 4 </button>
                         </div>
                         <button className="px-2 py-3 bg-red-500 text-white rounded-full shadow-md hover:bg-red-600 transition hover:text-black duration-200
-        outline-none bg-red-500 border-4 border-red-800 rounded-full text-3xl font-bold col-span-3" onClick={()=>{queryLobbyById()}}>
+        outline-none bg-red-500 border-4 border-red-800 rounded-full text-3xl font-bold col-span-3" onClick={()=>{queryLobbyById();}}>
                             <Link className = "text-xl font-bold tracking-widest w-2 h-5" 
                                 href={"/game"}
                                 id="game">
