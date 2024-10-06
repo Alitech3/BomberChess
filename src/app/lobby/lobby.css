@@ -1,12 +1,11 @@
 
 #outline
 { 
-	border: thin solid black; 
+	border: thick solid black; 
     border-radius: 25px;
 	width:500px; 
 	height:500px; 
 	text-align: justify; 
-	background-color: #FFA500; 
 	word-wrap: break-word; /* words won't go from the boundry */ 
 	margin: 30px 50px auto; 
 	/* top, left, bottom*/ 
