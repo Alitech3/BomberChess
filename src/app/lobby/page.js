@@ -44,7 +44,6 @@ export default function Home() {
             Lobby Id:<br/> {id}
                     </button>
                     <div className="flex flex-col w-full">
-                        {/* <div className="row"> */}
                         <div className="flex justify-around w-full">
                             <button className="mr-4 px-3 py-1 bg-[#56b0ce] text-white shadow-md border-black border-2 text-3xl font-bold rounded-3xl hover:bg-red-600 transition hover:text-black duration-200 w-1/3">  Team 1 </button>
                             <button className="ml-4 px-3 py-1 bg-[#56b0ce] text-white shadow-md border-black border-2 text-3xl font-bold rounded-3xl hover:bg-red-600 transition hover:text-black duration-200 w-1/3">  Team 2 </button>
