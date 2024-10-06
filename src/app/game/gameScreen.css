@@ -4,7 +4,6 @@
   justify-content: space-around;
   align-items: center;
   height: 100vh;
-  background-image: url('path/to/your/background/image.jpg'); /* Add your background image */
   background-size: cover;
   background-position: center;
 }
