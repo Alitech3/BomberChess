@@ -46,7 +46,7 @@ const pieces = {
         name: "king",
         letter: "K"
     },
-    ALL: ['p', 'r', 'n', 'b', 'q', 'k']
+    ALL: ["p", "r", "n", "b", "q", "k"]
 };
 
 // squares to notation
@@ -110,54 +110,54 @@ export function createBoard(document, boards) {
         }
 
         board.forEach((startPiece, i) => {
-        const square = document.createElement("div");
-        square.setAttribute("square-id", i);
+            const square = document.createElement("div");
+            square.setAttribute("square-id", i);
 
-        // Determine if the piece is white (uppercase) or black (lowercase)
-        const isWhite = startPiece === startPiece.toUpperCase();
-        const pieceType = startPiece.toLowerCase();
+            // Determine if the piece is white (uppercase) or black (lowercase)
+            const isWhite = startPiece === startPiece.toUpperCase();
+            const pieceType = startPiece.toLowerCase();
 
-        // Create an image element for the piece if it's a valid piece letter
-        if (startPiece !== "") {
-            const img = document.createElement("img");
+            // Create an image element for the piece if it's a valid piece letter
+            if (startPiece !== "") {
+                const img = document.createElement("img");
 
-            const pieceImages = {
-                white: {
-                    p: "https://upload.wikimedia.org/wikipedia/commons/0/04/Chess_plt60.png",
-                    r: "https://upload.wikimedia.org/wikipedia/commons/5/5c/Chess_rlt60.png",
-                    n: "https://upload.wikimedia.org/wikipedia/commons/2/28/Chess_nlt60.png",
-                    b: "https://upload.wikimedia.org/wikipedia/commons/9/9b/Chess_blt60.png",
-                    q: "https://upload.wikimedia.org/wikipedia/commons/4/49/Chess_qlt60.png",
-                    k: "https://upload.wikimedia.org/wikipedia/commons/3/3b/Chess_klt60.png"
-                },
-                black: {
-                    p: "https://upload.wikimedia.org/wikipedia/commons/c/cd/Chess_pdt60.png",
-                    r: "https://upload.wikimedia.org/wikipedia/commons/a/a0/Chess_rdt60.png",
-                    n: "https://upload.wikimedia.org/wikipedia/commons/f/f1/Chess_ndt60.png",
-                    b: "https://upload.wikimedia.org/wikipedia/commons/8/81/Chess_bdt60.png",
-                    q: "https://upload.wikimedia.org/wikipedia/commons/a/af/Chess_qdt60.png",
-                    k: "https://upload.wikimedia.org/wikipedia/commons/e/e3/Chess_kdt60.png"
-                }
-            };
-            // Set the image source based on the piece type and color
-            img.src = isWhite ? pieceImages.white[pieceType] : pieceImages.black[pieceType];
-            img.className = "chess-piece";
-            img.draggable = true;
-            img.alt = pieceType;
+                const pieceImages = {
+                    white: {
+                        p: "https://upload.wikimedia.org/wikipedia/commons/0/04/Chess_plt60.png",
+                        r: "https://upload.wikimedia.org/wikipedia/commons/5/5c/Chess_rlt60.png",
+                        n: "https://upload.wikimedia.org/wikipedia/commons/2/28/Chess_nlt60.png",
+                        b: "https://upload.wikimedia.org/wikipedia/commons/9/9b/Chess_blt60.png",
+                        q: "https://upload.wikimedia.org/wikipedia/commons/4/49/Chess_qlt60.png",
+                        k: "https://upload.wikimedia.org/wikipedia/commons/3/3b/Chess_klt60.png"
+                    },
+                    black: {
+                        p: "https://upload.wikimedia.org/wikipedia/commons/c/cd/Chess_pdt60.png",
+                        r: "https://upload.wikimedia.org/wikipedia/commons/a/a0/Chess_rdt60.png",
+                        n: "https://upload.wikimedia.org/wikipedia/commons/f/f1/Chess_ndt60.png",
+                        b: "https://upload.wikimedia.org/wikipedia/commons/8/81/Chess_bdt60.png",
+                        q: "https://upload.wikimedia.org/wikipedia/commons/a/af/Chess_qdt60.png",
+                        k: "https://upload.wikimedia.org/wikipedia/commons/e/e3/Chess_kdt60.png"
+                    }
+                };
+                // Set the image source based on the piece type and color
+                img.src = isWhite ? pieceImages.white[pieceType] : pieceImages.black[pieceType];
+                img.className = "chess-piece";
+                img.draggable = true;
+                img.alt = pieceType;
 
-            square.appendChild(img);  // Add the image to the square
-        }
+                square.appendChild(img);  // Add the image to the square
+            }
 
-        // Set the square color based on its position
-        square.classList.add("square");
-        const row = Math.floor(i / 8);
-        if (row % 2 === 0) {
-            square.classList.add(i % 2 === 0 ? "white-square" : "black-square");
-        } else {
-            square.classList.add(i % 2 === 0 ? "black-square" : "white-square");
-        }
+            // Set the square color based on its position
+            square.classList.add("square");
+            const row = Math.floor(i / 8);
+            if (row % 2 === 0) {
+                square.classList.add(i % 2 === 0 ? "white-square" : "black-square");
+            } else {
+                square.classList.add(i % 2 === 0 ? "black-square" : "white-square");
+            }
 
-        gameboard.append(square);  // Append the square to the gameboard
+            gameboard.append(square);  // Append the square to the gameboard
         });
     }
 }
@@ -291,30 +291,30 @@ function Game({from, to}) {
 function validMove(isWhite, pieceType, current, destination, takenPiece) {
     console.log("isWhite? " + isWhite);
     console.log("C " + current);
-    console.log("D " + destination)
+    console.log("D " + destination);
     if (isWhite){
         switch (pieceType) {
-            case "p":
-                if (takenPiece){
-                    if (destination == (current - 9) || (destination == (current - 7))){
-                        return true;
-                    }
-                } else {
-                    if (destination == (current - 8) || (destination == current - 16)){
-                        return true;
-                    }
-                }
-                break;
-            case "r":
-                if (Math.abs(destination % 8 == 0)){
-                        return true;
-                    }
-                if (Math.abs(destination - current <  8)){
+        case "p":
+            if (takenPiece){
+                if (destination == (current - 9) || (destination == (current - 7))){
                     return true;
                 }
-                break;
-            case "n":
-                if (destination == (current - 17) ||
+            } else {
+                if (destination == (current - 8) || (destination == current - 16)){
+                    return true;
+                }
+            }
+            break;
+        case "r":
+            if (Math.abs(destination % 8 == 0)){
+                return true;
+            }
+            if (Math.abs(destination - current <  8)){
+                return true;
+            }
+            break;
+        case "n":
+            if (destination == (current - 17) ||
                    (destination == (current - 15)) ||
                    (destination == (current + 17))  ||
                    (destination == (current + 15)) ||
@@ -322,27 +322,27 @@ function validMove(isWhite, pieceType, current, destination, takenPiece) {
                    (destination == (current + 10)) ||
                    (destination == (current - 6)) ||
                    (destination == (current + 6))){
-                    return true;
-                }
-                break;
-            case "b":
-                if (Math.abs(destination % 7 == 0)){
-                    return true;
-                }
-                break;
-            case "q":
-                if (Math.abs(destination % 8 == 0)){
-                    return true;
-                }
-                if (Math.abs(destination - current <  8)){
-                    return true;
-                }
-                if (Math.abs(destination % 7 == 0)){
-                    return true;
-                }
-                break;
-            case "k":
-                if (destination == (current + 1) ||
+                return true;
+            }
+            break;
+        case "b":
+            if (Math.abs(destination % 7 == 0)){
+                return true;
+            }
+            break;
+        case "q":
+            if (Math.abs(destination % 8 == 0)){
+                return true;
+            }
+            if (Math.abs(destination - current <  8)){
+                return true;
+            }
+            if (Math.abs(destination % 7 == 0)){
+                return true;
+            }
+            break;
+        case "k":
+            if (destination == (current + 1) ||
                     (destination == (current - 1)) ||
                     (destination == (current + 8)) ||
                     (destination == (current - 8)) ||
@@ -350,9 +350,9 @@ function validMove(isWhite, pieceType, current, destination, takenPiece) {
                     (destination == (current - 7)) ||
                     (destination == (current + 9)) ||
                     (destination == (current - 9))){
-                    return true;
-                }
-                break;
+                return true;
+            }
+            break;
         }
     }
     return false;

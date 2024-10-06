@@ -6,7 +6,7 @@ import { useState, useEffect} from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../../firebase.js"; // Import Firestore instance from your firebase config
 
-export default function Home(context) {
+export default function Home() {
     const [Atomid] = useAtom(lobbyId);
     const [id, setId] = useState("");
 
