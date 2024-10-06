@@ -9,7 +9,7 @@ module.exports = {
   theme: {
     extend: {
       backgroundImage: {
-        'bomb-pattern': "url('../../assets/BomberLogo.png')",
+        'bomb-pattern': "url('../../assets/BomberBg.png')",
         'explosion': "url('../../assets/Explosion.png')",
         'half': "url('../../assets/HalfandHalf.png')"
       },
