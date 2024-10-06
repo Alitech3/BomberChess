@@ -26,10 +26,20 @@
   font-size: 18px;
   font-weight: bold;
   text-align: center;
-  color: white; /* Change color as needed */
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); /* Shadow for better readability */
+  color: #ffffff; /* Change color as needed */
+  text-shadow: -1px 0px 7px rgba(0, 0, 0, 0.6); /* Shadow for better readability */
 }
 
+#board1 {
+  @apply
+    flex
+    flex-wrap
+}
+#board2 {
+  @apply
+    flex
+    flex-wrap
+}
 /* Styling for the chess boards */
 .chess-board {
   width: 300px;
@@ -40,6 +50,8 @@
   position: relative; /* For additional styling like overlays */
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Shadow for depth */
   transition: transform 0.3s; /* Smooth scale transition */
+  @apply
+  overflow-hidden
 }
 
 /* Hover effect for the chess board */
@@ -70,4 +82,25 @@
 .active-player {
   border: 2px solid gold; /* Highlight active player */
   box-shadow: 0 0 10px rgba(255, 215, 0, 0.8); /* Glow effect */
+}
+
+#board1 > * {
+  @apply
+    w-[60px]
+    flex-grow
+    h-[3.85rem]
+}
+#board2 > * {
+  @apply
+    w-[2.2rem]
+    flex-grow
+    h-[2.3rem]
+}
+.white-square {
+  @apply
+      bg-orange-300
+}
+.black-square {
+  @apply
+      bg-amber-900
 }

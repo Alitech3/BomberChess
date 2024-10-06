@@ -11,9 +11,9 @@
 	height:500px; 
 	text-align: justify; 
 	background-color: red-600; 
-	word-wrap: break-word; /* words won't go from the boundry */ 
+	word-wrap: break-word; /* won't go from the boundry  */
 	margin: 30px 50px auto; 
-	/* top, left, bottom*/ 
+	/* top, left, bottom  */
 	padding: 30px 50px 70px; 
 	float: left; 
 }

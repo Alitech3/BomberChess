@@ -1,9 +1,6 @@
-"use client";
-
 import Link from "next/link";
 
 export default function Home() {
-
     return (
         <main className="h-screen bg-center bg-gradient-to-tr from-green-700 to-green-400">
 
