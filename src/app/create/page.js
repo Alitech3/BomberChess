@@ -20,20 +20,20 @@ export default function Create() {
               </h1>
             </div>
 
-            <div className="flex flex-col justify-center space-y-12">
+            <div className="flex flex-col justify-center items-center space-y-12">
               <div className>
                 <input type="text" id="username" class="outline-none bg-red-500 border-4 border-red-600 text-white rounded-full shadow-md text-xl font-bold tracking-widest px-10
                             focus:ring-yellow-100 focus:border-yellow-100 block w-full p-2.5" placeholder="Username" val={user} onUserChange={(e) => setUser(e.target.value)} />
               </div>
 
-              <button className="p-12 bg-red-500 text-white rounded-full shadow-md hover:bg-red-600 transition hover:text-black duration-200
-                                    outline-none bg-red-500 border-4 border-red-800">
-                <Link className="text-xl font-bold tracking-widest px-10"
+              <div className="flex flex-col justify-center w-5/6">
+                <Link className="flex justify-center block w-full max-w-xs flex p-12 bg-red-500 text-white rounded-full shadow-md hover:bg-red-600 transition hover:text-black duration-200
+                                    outline-none bg-red-500 border-4 border-red-800 text-xl font-bold tracking-widest px-10"
                   href={"./lobby"}
                   id="lobby">
                   CREATE CODE
                 </Link>
-              </button>
+              </div>
             </div>
           </div>
         </div>
