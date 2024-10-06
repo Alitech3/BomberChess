@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { useAtom } from "jotai";
 import { lobbyId } from "../../atom.js";
 import { useState } from "react";
@@ -17,25 +17,25 @@ export default function Create() {
         try {
             const docRef = await addDoc(collection(db, "lobbies"), {
                 board2: {
-                  turn: 'white',
-                  white: null,
-                  black: null,
-                  reserve: [],
-                  moves: 0,
-                  lastMove: ''
+                    turn: "white",
+                    white: null,
+                    black: null,
+                    reserve: [],
+                    moves: 0,
+                    lastMove: ""
                 },
                 board1: {
-                  turn: 'white',
-                  white: null,
-                  black: null,
-                  reserve: [],
-                  moves: 0,
-                  lastMove: ''
+                    turn: "white",
+                    white: null,
+                    black: null,
+                    reserve: [],
+                    moves: 0,
+                    lastMove: ""
                 },
                 participants: [],
                 createdAt: new Date(),
             });
-            console.log('id created: '+ docRef.id);
+            console.log("id created: "+ docRef.id);
             setDocRef(docRef.id); // Set docRefId using the Jotai atom
         } catch (error) {
             console.error("Error creating lobby: ", error);
@@ -77,12 +77,12 @@ export default function Create() {
                                     disabled={loading} // Disable button while loading
                                     onClick={() => createLobby(submittedUser, submittedUser)}
                                 >
-                                      <Link className = "text-xl font-bold tracking-widest px-5 w-5 h-5" 
-                                        href={'/lobby'}
+                                    <Link className = "text-xl font-bold tracking-widest px-5 w-5 h-5" 
+                                        href={"/lobby"}
                                         id="lobby">
                                         CREATE CODE
                                     </Link>
-                                  </button>
+                                </button>
                             </div>
                         </div>
                     </div>

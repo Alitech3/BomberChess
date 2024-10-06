@@ -10,32 +10,32 @@ export default function Join() {
         const lobbyRef = doc(db, "lobbies", lobbyId);
         try {
 
-          const lobbySnap = await getDoc(lobbyRef);
+            const lobbySnap = await getDoc(lobbyRef);
 
-          if (lobbySnap.exists()) {
-              const lobbyData = lobbySnap.data();
+            if (lobbySnap.exists()) {
+                const lobbyData = lobbySnap.data();
   
-              // Check the current number of participants
-              const participants = lobbyData.participants || [];
-              let updatedBoard = {};
-              let assignedRole = null;
+                // Check the current number of participants
+                const participants = lobbyData.participants || [];
+                let updatedBoard = {};
+                let assignedRole = null;
   
-              // Assign the user to either 'white' or 'black' if available
-              if (!lobbyData.board1.white) {
-                  updatedBoard = { 'board1.white': userId };
-                  assignedRole = "white (Board 1)";
-              } else if (!lobbyData.board1.black) {
-                  updatedBoard = { 'board1.black': userId };
-                  assignedRole = "black (Board 1)";
-              } else if (!lobbyData.board2.white) {
-                  updatedBoard = { 'board2.white': userId };
-                  assignedRole = "white (Board 2)";
-              } else if (!lobbyData.board2.black) {
-                  updatedBoard = { 'board2.black': userId };
-                  assignedRole = "black (Board 2)";
-              } else {
-                  console.log("All roles are filled, adding participant without assignment.");
-              }
+                // Assign the user to either 'white' or 'black' if available
+                if (!lobbyData.board1.white) {
+                    updatedBoard = { "board1.white": userId };
+                    assignedRole = "white (Board 1)";
+                } else if (!lobbyData.board1.black) {
+                    updatedBoard = { "board1.black": userId };
+                    assignedRole = "black (Board 1)";
+                } else if (!lobbyData.board2.white) {
+                    updatedBoard = { "board2.white": userId };
+                    assignedRole = "white (Board 2)";
+                } else if (!lobbyData.board2.black) {
+                    updatedBoard = { "board2.black": userId };
+                    assignedRole = "black (Board 2)";
+                } else {
+                    console.log("All roles are filled, adding participant without assignment.");
+                }
             }
             await updateDoc(lobbyRef, {
                 participants: arrayUnion(userId),
@@ -44,13 +44,13 @@ export default function Join() {
         } catch (error) {
             console.error("Error joining lobby: ", error);
         }
-        router.push('/lobby');
+        router.push("/lobby");
     };
 
     const [user, setUser] = useState("");
-    const [submittedUser, setSubmittedUser] = useState("");
+    // const [submittedUser, setSubmittedUser] = useState("");
     const [code, setCode] = useState("");
-    const [submittedCode, setSubmittedCode] = useState("");
+    // const [submittedCode, setSubmittedCode] = useState("");
 
     return (
         <main className="h-screen bg-center bg-gradient-to-tr from-green-700 to-green-400">

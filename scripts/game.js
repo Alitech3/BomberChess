@@ -359,156 +359,156 @@ function validMove(isWhite, pieceType, current, destination, takenPiece) {
 }
 
 
-// dont need anything below
+// // dont need anything below
 
-const notation = {
-    a: 0,
-    b: 1,
-    c: 2,
-    d: 3,
-    e: 4,
-    f: 5,
-    g: 6,
-    h: 7
-};
+// const notation = {
+//     a: 0,
+//     b: 1,
+//     c: 2,
+//     d: 3,
+//     e: 4,
+//     f: 5,
+//     g: 6,
+//     h: 7
+// };
 
-// not needed
-function whiteMove(from, to) {
+// // not needed
+// function whiteMove(from, to) {
 
-    console.log(board);
+//     console.log(board);
 
-    console.log("White's Move");
+//     console.log("White's Move");
 
-    let fromX = notation[from[0]];
-    let fromY = from[1];
+//     let fromX = notation[from[0]];
+//     let fromY = from[1];
 
-    let toX = notation[to[0]];
-    let toY = to[1];
+//     let toX = notation[to[0]];
+//     let toY = to[1];
 
-    console.log(board[fromY][fromX]);
-    // validate move and contiue below
-    // board[toX][toY] = board[fromX][fromY];
-    // board[fromX][fromY] = ''
+//     console.log(board[fromY][fromX]);
+//     // validate move and contiue below
+//     // board[toX][toY] = board[fromX][fromY];
+//     // board[fromX][fromY] = ''
 
-    console.log(board);
+//     console.log(board);
 
-    // let row = from[0]; // 'a', 'b', 'c', etc.
-    // let col = from[1]; // '1', '2', '3', etc.
+//     // let row = from[0]; // 'a', 'b', 'c', etc.
+//     // let col = from[1]; // '1', '2', '3', etc.
 
-    // // Access notation dynamically using bracket notation
-    // console.log(`Row: ${pos}, Col: ${col}`);
-    // console.log(notation);
-    // console.log(notation[row][col]); 
-    wht2Move = false;
-}
+//     // // Access notation dynamically using bracket notation
+//     // console.log(`Row: ${pos}, Col: ${col}`);
+//     // console.log(notation);
+//     // console.log(notation[row][col]); 
+//     wht2Move = false;
+// }
 
-function blackMove(from, to) {
-    console.log("White's Move");
+// function blackMove(from, to) {
+//     console.log("White's Move");
 
-    wht2Move = true;
-}
+//     wht2Move = true;
+// }
 
-// Function to simulate white's move
-function whiteMovev1() {
-    console.log("White's turn to move");
+// // Function to simulate white's move
+// function whiteMovev1() {
+//     console.log("White's turn to move");
 
-    // Get all possible white pieces and make a random move
-    let pieceMoved = false;
-    while (!pieceMoved) {
-        let from = Math.floor(Math.random() * 64); // Randomly select a piece
-        if (board[from] && board[from] === board[from]) {
-            let to = Math.floor(Math.random() * 64); // Randomly select destination
-            if (validateMove(from, to, "w")) {
-                makeMove(from, to);
-                pieceMoved = true;
-                console.log("White moves from " + from + " to " + to);
-            }
-        }
-    }
+//     // Get all possible white pieces and make a random move
+//     let pieceMoved = false;
+//     while (!pieceMoved) {
+//         let from = Math.floor(Math.random() * 64); // Randomly select a piece
+//         if (board[from] && board[from] === board[from]) {
+//             let to = Math.floor(Math.random() * 64); // Randomly select destination
+//             if (validateMove(from, to, "w")) {
+//                 makeMove(from, to);
+//                 pieceMoved = true;
+//                 console.log("White moves from " + from + " to " + to);
+//             }
+//         }
+//     }
 
-    wht2Move = false;
-}
+//     wht2Move = false;
+// }
 
-// Function to simulate black's move
-function blackMovev1() {
-    console.log("Black's turn to move");
+// // Function to simulate black's move
+// function blackMovev1() {
+//     console.log("Black's turn to move");
 
-    // Get all possible black pieces and make a random move
-    let pieceMoved = false;
-    while (!pieceMoved) {
-        let from = Math.floor(Math.random() * 64); // Randomly select a piece
-        if (board[from] && board[from] === board[from]) {
-            let to = Math.floor(Math.random() * 64); // Randomly select destination
-            if (validateMove(from, to, "b")) {
-                makeMove(from, to);
-                pieceMoved = true;
-                console.log("Black moves from " + from + " to " + to);
-            }
-        }
-    }
+//     // Get all possible black pieces and make a random move
+//     let pieceMoved = false;
+//     while (!pieceMoved) {
+//         let from = Math.floor(Math.random() * 64); // Randomly select a piece
+//         if (board[from] && board[from] === board[from]) {
+//             let to = Math.floor(Math.random() * 64); // Randomly select destination
+//             if (validateMove(from, to, "b")) {
+//                 makeMove(from, to);
+//                 pieceMoved = true;
+//                 console.log("Black moves from " + from + " to " + to);
+//             }
+//         }
+//     }
 
-    wht2Move = true;
-}
+//     wht2Move = true;
+// }
 
-// Function to validate basic piece moves
-function validateMove(from, to, player) {
-    // For simplicity, allow any move if destination is empty or opponent's piece
-    let piece = board[from];
-    if (!piece || (player === "w" && piece !== piece) || (player === "b" && piece !== piece)) {
-        return false;
-    }
+// // Function to validate basic piece moves
+// function validateMove(from, to, player) {
+//     // For simplicity, allow any move if destination is empty or opponent's piece
+//     let piece = board[from];
+//     if (!piece || (player === "w" && piece !== piece) || (player === "b" && piece !== piece)) {
+//         return false;
+//     }
     
-    console.log(board);
-    // Make sure you are not moving to a square occupied by your own piece
-    if (player === "w" && board[to] === board[to]) return false;
-    if (player === "b" && board[to] === board[to]) return false;
+//     console.log(board);
+//     // Make sure you are not moving to a square occupied by your own piece
+//     if (player === "w" && board[to] === board[to]) return false;
+//     if (player === "b" && board[to] === board[to]) return false;
     
-    // You can add more specific move validation based on the piece type here (e.g., pawn, rook, etc.)
+//     // You can add more specific move validation based on the piece type here (e.g., pawn, rook, etc.)
     
-    return true;
-}
+//     return true;
+// }
 
-// Function to make a move (move a piece from one square to another)
-function makeMove(from, to) {
-    board[to] = board[from];
-    board[from] = "";
-}
+// // Function to make a move (move a piece from one square to another)
+// function makeMove(from, to) {
+//     board[to] = board[from];
+//     board[from] = "";
+// }
 
-// Function to check game state (check, checkmate, etc.)
-function checkGameState() {
-    // Check for check/checkmate (very basic, can be expanded)
-    whtChk = isKingInCheck("w");
-    blkChk = isKingInCheck("b");
+// // Function to check game state (check, checkmate, etc.)
+// function checkGameState() {
+//     // Check for check/checkmate (very basic, can be expanded)
+//     whtChk = isKingInCheck("w");
+//     blkChk = isKingInCheck("b");
     
-    if (whtChk && !canKingEscape("w")) {
-        whtLose = true;
-    }
-    if (blkChk && !canKingEscape("b")) {
-        blkLose = true;
-    }
-}
+//     if (whtChk && !canKingEscape("w")) {
+//         whtLose = true;
+//     }
+//     if (blkChk && !canKingEscape("b")) {
+//         blkLose = true;
+//     }
+// }
 
-// Function to check if the king is in check
-function isKingInCheck(player) {
-    // For simplicity, assume the king is in check if any opponent's piece can move to the king's square
-    let kingPosition = board.indexOf(player === "w" ? "K" : "k");
-    for (let i = 0; i < 64; i++) {
-        if (validateMove(i, kingPosition, player === "w" ? "b" : "w")) {
-            return true;
-        }
-    }
-    return false;
-}
+// // Function to check if the king is in check
+// function isKingInCheck(player) {
+//     // For simplicity, assume the king is in check if any opponent's piece can move to the king's square
+//     let kingPosition = board.indexOf(player === "w" ? "K" : "k");
+//     for (let i = 0; i < 64; i++) {
+//         if (validateMove(i, kingPosition, player === "w" ? "b" : "w")) {
+//             return true;
+//         }
+//     }
+//     return false;
+// }
 
-// Function to check if the king has any legal escape moves
-function canKingEscape(player) {
-    let kingPosition = board.indexOf(player === "w" ? "K" : "k");
-    let possibleMoves = [kingPosition - 1, kingPosition + 1, kingPosition - 8, kingPosition + 8]; // Adjacent squares
+// // Function to check if the king has any legal escape moves
+// function canKingEscape(player) {
+//     let kingPosition = board.indexOf(player === "w" ? "K" : "k");
+//     let possibleMoves = [kingPosition - 1, kingPosition + 1, kingPosition - 8, kingPosition + 8]; // Adjacent squares
     
-    for (let move of possibleMoves) {
-        if (move >= 0 && move < 64 && validateMove(kingPosition, move, player)) {
-            return true;
-        }
-    }
-    return false;
-}
+//     for (let move of possibleMoves) {
+//         if (move >= 0 && move < 64 && validateMove(kingPosition, move, player)) {
+//             return true;
+//         }
+//     }
+//     return false;
+// }
