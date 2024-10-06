@@ -44,7 +44,7 @@ export default function Join() {
         } catch (error) {
             console.error("Error joining lobby: ", error);
         }
-        router.push('/game');
+        router.push('/lobby');
     };
 
     const [user, setUser] = useState("");
