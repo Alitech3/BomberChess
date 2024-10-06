@@ -1,9 +1,7 @@
 "use client";
 import { useEffect, useRef, useState} from "react";
 import "./games.css";
-import "./gameScreen.css";
 import {initializeBoard, Main, createBoard, dragging} from "../../../scripts/game.js";
-
 
 export default function Game() {
     initializeBoard([]);
@@ -37,34 +35,30 @@ export default function Game() {
     };
 
     return(
-        <div class="chess-game-container">
-        <div class="boards">
-          {/* <!-- Chess Board 1 --> */}
-          <div class="chess-board-container" id="board1-container">
-            <div class="player-top" id="game1-white-label">
-              Player 1 (White)
-            </div>
-            <div class="chess-board" id="board1">
-              {/* <!-- Chess Board 1 content goes here --> */}
-            </div>
-            <div class="player-bottom" id="game1-black-label">
-              Player 3 (Black)
-            </div>
-          </div>
-    
-          {/* <!-- Chess Board 2 --> */}
-          <div class="chess-board-container" id="board2-container">
-            <div class="player-top" id="game2-black-label">
-              Player 2 (Black)
-            </div>
-            <div class="chess-board" id="board2">
-              {/* <!-- Chess Board 2 content goes here --> */}
-            </div>
-            <div class="player-bottom" id="game2-white-label">
-              Player 4 (White)
-            </div>
-          </div>
-        </div>
-      </div>
+        <main id="main">
+            <div id="gameboard"/>
+            {/* <canvas ref={canvasRef} id="board"/> */}
+            <form onSubmit={handleSubmit} class='hidden'>
+                <div>
+                    <label>From:</label>
+                    <input
+                        type="text"
+                        name="from"
+                        value={move.name}
+                        onChange={handleChange}
+                    />
+                </div>
+                <div>
+                    <label>To:</label>
+                    <input
+                        type="text"
+                        name="to"
+                        value={move.name}
+                        onChange={handleChange}
+                    />
+                </div>
+                <button type="submit">Submit</button>
+            </form>
+        </main>
     );
 }
