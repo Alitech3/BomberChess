@@ -1,0 +1,34 @@
+
+#outline
+{ 
+	border: thin solid black; 
+    border-radius: 25px;
+	width:500px; 
+	height:500px; 
+	text-align: justify; 
+	background-color: #FFA500; 
+	word-wrap: break-word; /* words won't go from the boundry */ 
+	margin: 30px 50px auto; 
+	/* top, left, bottom*/ 
+	padding: 30px 50px 70px; 
+	float: left; 
+}
+
+#flatButton {
+    padding: 10px;
+    border: thin solid black;
+    border-radius: 25px;
+    margin-right: 50px;
+    margin-bottom: 50px;
+    background-color: rgb(86, 176, 206);
+}
+
+#button {
+    float: left;
+    padding: 10px;
+    border: thin solid black;
+    border-radius: 25px;
+    margin-right: 50px;
+    margin-top: 50px;
+    background-color: rgb(86, 176, 206);
+}
