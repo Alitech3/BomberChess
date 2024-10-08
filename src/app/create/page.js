@@ -1,20 +1,36 @@
-/* eslint-disable no-unused-vars */
+//Todo
+//get rid of the link
+
 "use client";
-import { useAtom } from "jotai";
-import { lobbyId } from "../../atom.js";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../../../firebase.js"; // Import your Firestore instance
-import Link from "next/link.js";  
+import Link from "next/link.js";
+import { useRouter } from "next/navigation";
+
 
 export default function Create() {
-    const [docRefId, setDocRef] = useAtom(lobbyId); // Use the atom for docRefId
+    const router = useRouter();
+    const hasNavigated = useRef(false);
+    const [docRefId, setDocRef] = useState(); // Use the atom for docRefId
     const [user, setUser] = useState("");
-    const [submittedUser, setSubmittedUser] = useState("");
-    const [loading, setLoading] = useState(false); // For button disabling/loading state
+
+    // useEffect to trigger Nav when docRefId is updated
+    useEffect(() => {
+        if (docRefId && !hasNavigated.current) {
+            hasNavigated.current = true;  // Mark as navigated to avoid running again
+            Nav(docRefId);
+        }
+    }, [docRefId]);  // Runs whenever docRefId changes
+
+    const Nav = (fulfilledID) => {
+        if (fulfilledID) {
+            console.log(setUser);
+            router.push(`/lobby?id=${fulfilledID}&un=${user}`);
+        }
+    };
 
     const createLobby = async (lobbyName, hostId) => {
-        setLoading(true); // Start loading
         try {
             const docRef = await addDoc(collection(db, "lobbies"), {
                 board2: {
@@ -36,12 +52,9 @@ export default function Create() {
                 participants: [],
                 createdAt: new Date(),
             });
-            console.log("id created: "+ docRef.id);
-            setDocRef(docRef.id); // Set docRefId using the Jotai atom
+            setDocRef(await docRef.id);
         } catch (error) {
             console.error("Error creating lobby: ", error);
-        } finally {
-            setLoading(false); // Stop loading after lobby creation
         }
     };
 
@@ -66,7 +79,7 @@ export default function Create() {
                                 />
                                 <button
                                     className="opacity-0"
-                                    onClick={() => setSubmittedUser(user)}
+                                    onClick={() => user}
                                 >
                                     {" "}
                                 </button>
@@ -75,11 +88,10 @@ export default function Create() {
                             <div className="flex flex-col justify-center space-y-12 mt-4">
                                 <button
                                     className="px-8 py-5 bg-red-500 text-white rounded-full shadow-md hover:bg-red-600 transition hover:text-black duration-200 outline-none bg-red-500 border-4 border-red-800"
-                                    disabled={loading} // Disable button while loading
-                                    onClick={() => createLobby(submittedUser, submittedUser)}
+                                    onClick={() => createLobby(user, user)}
                                 >
                                     <Link className = "text-xl font-bold tracking-widest px-5 w-5 h-5" 
-                                        href={"/lobby"}
+                                        href={""}
                                         id="lobby">
                                         CREATE CODE
                                     </Link>
