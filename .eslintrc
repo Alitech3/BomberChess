@@ -3,8 +3,8 @@
     "next/core-web-vitals",
     "next",
     "eslint:recommended",
-    "plugin:react/recommended",
     "plugin:react/jsx-runtime",
+    "plugin:react/recommended",
     "plugin:@next/next/recommended"
   ],
   "env": {
@@ -19,13 +19,14 @@
     "react"
   ],
   "rules": {
+    "react/react-in-jsx-scope": "off",
+    "react/jsx-uses-react": "off",
     "react/no-unescaped-entities": "off",
     "@next/next/no-page-custom-font": "off",
     "indent": [
       "warn",
       4
     ],
-    "react/react-in-jsx-scope": "off",
     "linebreak-style": [
       "warn",
       "windows"
