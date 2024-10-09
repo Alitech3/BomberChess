@@ -6,52 +6,35 @@ import { db } from "../../../firebase.js"; // Import your firestore instance
 import { useRouter } from "next/navigation.js";
 
 export default function Join() {
-    const router = useRouter(); 
-    const joinLobby = async (lobbyId, userId) => {
-        const lobbyRef = doc(db, "lobbies", lobbyId);
-        try {
-
-            const lobbySnap = await getDoc(lobbyRef);
-
-            if (lobbySnap.exists()) {
-                const lobbyData = lobbySnap.data();
-  
-                // Check the current number of participants
-                const participants = lobbyData.participants || [];
-                let updatedBoard = {};
-                let assignedRole = null;
-  
-                // Assign the user to either 'white' or 'black' if available
-                if (!lobbyData.board1.white) {
-                    updatedBoard = { "board1.white": userId };
-                    assignedRole = "white (Board 1)";
-                } else if (!lobbyData.board1.black) {
-                    updatedBoard = { "board1.black": userId };
-                    assignedRole = "black (Board 1)";
-                } else if (!lobbyData.board2.white) {
-                    updatedBoard = { "board2.white": userId };
-                    assignedRole = "white (Board 2)";
-                } else if (!lobbyData.board2.black) {
-                    updatedBoard = { "board2.black": userId };
-                    assignedRole = "black (Board 2)";
-                } else {
-                    console.log("All roles are filled, adding participant without assignment.");
-                }
-            }
-            await updateDoc(lobbyRef, {
-                participants: arrayUnion(userId),
-            });
-            console.log("User added to lobby");
-        } catch (error) {
-            console.error("Error joining lobby: ", error);
-        }
-        router.push("/lobby");
-    };
-
+    const router = useRouter();
     const [user, setUser] = useState("");
     // const [submittedUser, setSubmittedUser] = useState("");
     const [code, setCode] = useState("");
     // const [submittedCode, setSubmittedCode] = useState("");
+
+    // get lobby by ref
+    const joinLobby = async (lobbyId) => {
+        const lobbyRef = doc(db, "lobbies", lobbyId);
+        try {
+            const lobbySnap = await getDoc(lobbyRef);
+
+            // check to make sure theres no duplicate names(?)
+            if (lobbySnap.exists()) {
+                router.push(`/lobby?id=${code}&un=${user}`);
+
+                // const lobbyData = lobbySnap.data();
+            }
+            else {
+                window.alert("Not a valid lobby.");
+            }
+            // await updateDoc(lobbyRef, {
+            //     participants: arrayUnion(userId),
+            // });
+        } catch (error) {
+            console.error("Error joining lobby: ", error);
+        }
+        
+    };
 
     return (
         <main className="h-screen bg-center bg-gradient-to-tr from-green-700 to-green-400">
