@@ -25,29 +25,32 @@ export default function Create() {
 
     const Nav = (fulfilledID) => {
         if (fulfilledID) {
-            console.log(setUser);
             router.push(`/lobby?id=${fulfilledID}&un=${user}`);
         }
     };
 
-    const createLobby = async (lobbyName, hostId) => {
+    const createLobby = async () => {
         try {
             const docRef = await addDoc(collection(db, "lobbies"), {
-                board2: {
-                    turn: "white",
-                    white: null,
-                    black: null,
-                    reserve: [],
-                    moves: 0,
-                    lastMove: ""
-                },
                 board1: {
-                    turn: "white",
-                    white: null,
-                    black: null,
-                    reserve: [],
-                    moves: 0,
-                    lastMove: ""
+                    wht2Move: true,
+                    white: "white",
+                    black: "black",
+                    blkReserve: [],
+                    whtReserve: [],
+                    moves: [],
+                    moveCount: 0,
+                    state: []
+                },
+                board2: {
+                    wht2Move: true,
+                    white: "white",
+                    black: "black",
+                    blkReserve: [],
+                    whtReserve: [],
+                    moves: [],
+                    moveCount: 0,
+                    state: []
                 },
                 participants: [],
                 createdAt: new Date(),
@@ -88,7 +91,7 @@ export default function Create() {
                             <div className="flex flex-col justify-center space-y-12 mt-4">
                                 <button
                                     className="px-8 py-5 bg-red-500 text-white rounded-full shadow-md hover:bg-red-600 transition hover:text-black duration-200 outline-none bg-red-500 border-4 border-red-800"
-                                    onClick={() => createLobby(user, user)}
+                                    onClick={() => createLobby()}
                                 >
                                     <Link className = "text-xl font-bold tracking-widest px-5 w-5 h-5" 
                                         href={""}
