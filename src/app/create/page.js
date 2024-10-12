@@ -8,7 +8,6 @@ import { db } from "../../../firebase.js"; // Import your Firestore instance
 import Link from "next/link.js";
 import { useRouter } from "next/navigation";
 
-
 export default function Create() {
     const router = useRouter();
     const hasNavigated = useRef(false);
@@ -40,7 +39,15 @@ export default function Create() {
                     whtReserve: [],
                     moves: [],
                     moveCount: 0,
-                    state: []
+                    state: [ "r", "n", "b", "q", "k", "b", "n", "r",
+                        "p", "p", "p", "p", "p", "p", "p", "p",
+                        "", "", "", "", "", "", "", "",
+                        "", "", "", "", "", "", "", "",
+                        "", "", "", "", "", "", "", "",
+                        "", "", "", "", "", "", "", "",
+                        "P", "P", "P", "P", "P", "P", "P", "P",
+                        "R", "N", "B", "Q", "K", "B", "N", "R"
+                    ]
                 },
                 board2: {
                     wht2Move: true,
@@ -50,10 +57,22 @@ export default function Create() {
                     whtReserve: [],
                     moves: [],
                     moveCount: 0,
-                    state: []
+                    state: [ "r", "n", "b", "q", "k", "b", "n", "r",
+                        "p", "p", "p", "p", "p", "p", "p", "p",
+                        "", "", "", "", "", "", "", "",
+                        "", "", "", "", "", "", "", "",
+                        "", "", "", "", "", "", "", "",
+                        "", "", "", "", "", "", "", "",
+                        "P", "P", "P", "P", "P", "P", "P", "P",
+                        "R", "N", "B", "Q", "K", "B", "N", "R"
+                    ]
                 },
-                participants: [],
+                participants: {
+                    team1: [],
+                    team2: []
+                },
                 createdAt: new Date(),
+                lastMove: new Date()
             });
             setDocRef(await docRef.id);
         } catch (error) {
