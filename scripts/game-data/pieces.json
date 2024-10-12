@@ -1,0 +1,33 @@
+{
+    "pawn": {
+        "points": 1,
+        "name": "pawn",
+        "letter": "P"
+    },
+    "rook": {
+        "points": 5,
+        "name": "rook",
+        "letter": "R"
+    },
+    "knight": {
+        "points": 3,
+        "name": "knight",
+        "letter": "N"
+    },
+    "bishop": {
+        "points": 3,
+        "name": "bishop",
+        "letter": "B"
+    },
+    "queen": {
+        "points": 9,
+        "name": "queen",
+        "letter": "Q"
+    },
+    "king": {
+        "points": 0,
+        "name": "king",
+        "letter": "K"
+    },
+    "ALL": ["p", "r", "n", "b", "q", "k"]
+}
