@@ -21,7 +21,7 @@ export default function Home({searchParams}) {
             // setLobby(await getDoc(lobbyRef));
         })();
 
-        onSnapshot(doc(db, "lobbies", lobbyId), (doc) => {
+        const unsubscribe = onSnapshot(doc(db, "lobbies", lobbyId), (doc) => {
 
             const source = doc.metadata.hasPendingWrites ? "Local" : "Server";
             // if (source === "Server") {
@@ -31,6 +31,8 @@ export default function Home({searchParams}) {
             console.log("Current data: ", doc.data());
             console.log(source, " data: ", doc.data());
         });
+
+        return () => unsubscribe();
     }, []);
 
     // check if different user already occupies that slot
