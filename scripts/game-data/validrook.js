@@ -21,11 +21,11 @@ export default function validRookMove(current, destination, whiteSide) {
         const colEnd = Math.max(currentSquare, destinationSquare);
 
         for (let i = colEnd; i >= colStart; i--) {
-            let IFF = whiteSide ? gameState[i] !== gameState[i].toUpperCase() : gameState[i] !== gameState[i].toLowerCase();
+            // let IFF = whiteSide ? gameState[i] !== gameState[i].toUpperCase() : gameState[i] !== gameState[i].toLowerCase();
             if (i == currentSquare) {
                 continue;
             }
-            if (gameState[i] === "" || IFF) {
+            if (gameState[i] === "" || i == destinationSquare) {
                 console.log("valid");
                 valid = true;
             } else {
@@ -40,12 +40,11 @@ export default function validRookMove(current, destination, whiteSide) {
         const rowEnd = Math.max(currentSquare, destinationSquare);
 
         for (let i = rowEnd; i >= rowStart ; i-=8) {
-            console.log(i);
-            let IFF = whiteSide ? gameState[i] !== gameState[i].toUpperCase() : gameState[i] !== gameState[i].toLowerCase();
+            // let IFF = whiteSide ? gameState[i] !== gameState[i].toUpperCase() : gameState[i] !== gameState[i].toLowerCase();
             if (i == currentSquare) {
                 continue;
             }
-            if (gameState[i] === "" || IFF) {
+            if (gameState[i] === "" || i == destinationSquare) {
                 console.log("valid");
                 valid = true;
             } else {

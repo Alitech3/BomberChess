@@ -31,11 +31,11 @@ export default function validBishopMove(current, destination, whiteSide) {
         }
 
         for (let i = end; i >= start; i-=step) {
-            let IFF = whiteSide ? gameState[i] !== gameState[i].toUpperCase() : gameState[i] !== gameState[i].toLowerCase();
+            // let IFF = whiteSide ? gameState[i] !== gameState[i].toUpperCase() : gameState[i] !== gameState[i].toLowerCase();
             if (i == currentSquare) {
                 continue;
             }
-            if (gameState[i] === "" || IFF) {
+            if (gameState[i] === "" || i == destinationSquare) {
                 valid = true;
                 console.log("valid");
             }

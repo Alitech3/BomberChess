@@ -1,4 +1,4 @@
-import validPawnMove from "./ValidPawn";
+import validPawnMove from "./validpawn";
 import validRookMove from "./validrook";
 import validKingMove from "./validking";
 import validBishopMove from "./validbishop";

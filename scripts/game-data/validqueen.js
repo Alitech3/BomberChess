@@ -5,7 +5,6 @@ export default function validQueenMove(current, destination, whiteSide) {
     const gameData = getDefaultStore().get(Data);
     const userInfo = getDefaultStore().get(Active);
     const gameState = gameData[userInfo.board].state;
-    console.log(gameState);
 
     let valid = false;
 
@@ -25,12 +24,11 @@ export default function validQueenMove(current, destination, whiteSide) {
         const colEnd = Math.max(currentSquare, destinationSquare);
 
         for (let i = colEnd; i >= colStart; i--) {
-            console.log(gameState[i]);
-            let IFF = whiteSide ? gameState[i] !== gameState[i].toUpperCase() : gameState[i] !== gameState[i].toLowerCase();
-            if (i == currentSquare) {
+            // let IFF = whiteSide ? gameState[i] !== gameState[i].toUpperCase() : gameState[i] !== gameState[i].toLowerCase();
+            if (i == currentSquare || i == destinationSquare) {
                 continue;
             }
-            if (gameState[i] === "" || IFF) {
+            if (gameState[i] === "" || i == destinationSquare) {
                 console.log("valid");
                 valid = true;
             } else {
@@ -45,14 +43,11 @@ export default function validQueenMove(current, destination, whiteSide) {
         const rowEnd = Math.max(currentSquare, destinationSquare);
 
         for (let i = rowEnd; i >= rowStart ; i-=8) {
-            console.log(i);
-            let IFF = whiteSide ? gameState[i] !== gameState[i].toUpperCase() : gameState[i] !== gameState[i].toLowerCase();
-            console.log(IFF);
-            console.log(gameState[i]);
-            if (i == currentSquare) {
+            // let IFF = whiteSide ? gameState[i] !== gameState[i].toUpperCase() : gameState[i] !== gameState[i].toLowerCase();
+            if (i == currentSquare || i == destinationSquare) {
                 continue;
             }
-            if (gameState[i] === "" || IFF) {
+            if (gameState[i] === "" || i == destinationSquare) {
                 console.log("valid");
                 valid = true;
             } else {
@@ -73,17 +68,16 @@ export default function validQueenMove(current, destination, whiteSide) {
             step = 7;
         }
         for (let i = end; i >= start; i-=step) {
-            let IFF = whiteSide ? gameState[i] !== gameState[i].toUpperCase() : gameState[i] !== gameState[i].toLowerCase();
+            // let IFF = whiteSide ? gameState[i] !== gameState[i].toUpperCase() : gameState[i] !== gameState[i].toLowerCase();
             if (i == currentSquare) {
                 continue;
             }
-            if (gameState[i] === "" || IFF) {
-                valid = true;
+            if (gameState[i] === "" || i == destinationSquare) {
                 console.log("valid");
-            }
-            else {
-                valid = false;
+                valid = true;
+            } else {
                 console.log("invalid");
+                valid = false;
                 break;
             }
         }

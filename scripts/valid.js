@@ -5,7 +5,7 @@ import { Data, Active } from "@/atom.js";
 
 import collision from "./game-data/collision";
 import submitMove from "./submitmove.js";
-import Check from "./game-data/Check";
+import Check from "./game-data/check";
 
 export default function validMove(current, destination) {
     console.log(current);
@@ -118,8 +118,6 @@ export default function validMove(current, destination) {
             }
 
             valid = collision(touched, currentRow, currentColumn, currentSquare, destinationRow, destinationColumn, destinationSquare, clientWhite); 
-
-            check = Check();
     
             if (valid && !check.check && !check.mate) {
                 moveInfo.send2 = "whtReserve";
