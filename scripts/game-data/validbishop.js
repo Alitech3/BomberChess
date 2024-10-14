@@ -1,7 +1,7 @@
 import { getDefaultStore } from "jotai";
 import { Data, Active } from "@/atom.js";
 
-export default function validBishopMove(current, destination) {
+export default function validBishopMove(current, destination, whiteSide) {
     const gameData = getDefaultStore().get(Data);
     const userInfo = getDefaultStore().get(Active);
     const gameState = gameData[userInfo.board].state;
@@ -20,16 +20,28 @@ export default function validBishopMove(current, destination) {
     const colDiff = Math.abs(currentCol - destinationCol);
 
     if (rowDiff === colDiff) {
-        const start = Math.min(currentSquare, destinationSquare)+1;
+        const start = Math.min(currentSquare, destinationSquare);
         const end = Math.max(currentSquare, destinationSquare);
+        let step;
 
-        for (let i = start; i < end; i+=7) {
-            console.log(i);
-            if (gameState[i] === "") {
+        if ((destinationSquare-currentSquare) % 9 === 0) {
+            step = 9;
+        } else {
+            step = 7;
+        }
+
+        for (let i = end; i >= start; i-=step) {
+            let IFF = whiteSide ? gameState[i] !== gameState[i].toUpperCase() : gameState[i] !== gameState[i].toLowerCase();
+            if (i == currentSquare) {
+                continue;
+            }
+            if (gameState[i] === "" || IFF) {
                 valid = true;
+                console.log("valid");
             }
             else {
                 valid = false;
+                console.log("invalid");
                 break;
             }
         }

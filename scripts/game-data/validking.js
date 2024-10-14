@@ -6,6 +6,8 @@ export default function validKingMove(current, destination) {
     const userInfo = getDefaultStore().get(Active);
     const gameState = gameData[userInfo.board].state;
 
+    console.log(destination);
+    
     let valid = false;
 
     const currentRow = current[0];

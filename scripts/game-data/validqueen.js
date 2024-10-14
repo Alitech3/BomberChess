@@ -1,11 +1,11 @@
 import { getDefaultStore } from "jotai";
 import { Data, Active } from "@/atom.js";
 
-export default function validQueenMove(current, destination) {
-    console.log("sadasd");
+export default function validQueenMove(current, destination, whiteSide) {
     const gameData = getDefaultStore().get(Data);
     const userInfo = getDefaultStore().get(Active);
     const gameState = gameData[userInfo.board].state;
+    console.log(gameState);
 
     let valid = false;
 
@@ -21,37 +21,69 @@ export default function validQueenMove(current, destination) {
     const colDiff = Math.abs(currentCol - destinationCol);
 
     if (currentRow === destinationRow) {
-        const colStart = Math.min(currentSquare, destinationSquare)+1;
+        const colStart = Math.min(currentSquare, destinationSquare);
         const colEnd = Math.max(currentSquare, destinationSquare);
-        for (let i = colStart; i <= colEnd; i++) {
-            if (gameState[i] === "") {
+
+        for (let i = colEnd; i >= colStart; i--) {
+            console.log(gameState[i]);
+            let IFF = whiteSide ? gameState[i] !== gameState[i].toUpperCase() : gameState[i] !== gameState[i].toLowerCase();
+            if (i == currentSquare) {
+                continue;
+            }
+            if (gameState[i] === "" || IFF) {
+                console.log("valid");
                 valid = true;
+            } else {
+                console.log("invalid");
+                valid = false;
                 break;
             }
         }
     }
     else if (currentCol === destinationCol) {
-        const rowStart = Math.min(currentSquare, destinationSquare)+1;
+        const rowStart = Math.min(currentSquare, destinationSquare);
         const rowEnd = Math.max(currentSquare, destinationSquare);
 
-        for (let i = rowStart; i < rowEnd; i+=7) {
-            if (gameState[i] === "") {
+        for (let i = rowEnd; i >= rowStart ; i-=8) {
+            console.log(i);
+            let IFF = whiteSide ? gameState[i] !== gameState[i].toUpperCase() : gameState[i] !== gameState[i].toLowerCase();
+            console.log(IFF);
+            console.log(gameState[i]);
+            if (i == currentSquare) {
+                continue;
+            }
+            if (gameState[i] === "" || IFF) {
+                console.log("valid");
                 valid = true;
             } else {
+                console.log("invalid");
                 valid = false;
                 break;
             }
         }
     }
     else if (rowDiff === colDiff) {
-        const start = Math.min(currentSquare, destinationSquare)+1;
+        const start = Math.min(currentSquare, destinationSquare);
         const end = Math.max(currentSquare, destinationSquare);
+        let step;
 
-        for (let i = start; i < end; i+=7) {
-            if (gameState[i] === "") {
+        if ((destinationSquare-currentSquare) % 9 === 0) {
+            step = 9;
+        } else {
+            step = 7;
+        }
+        for (let i = end; i >= start; i-=step) {
+            let IFF = whiteSide ? gameState[i] !== gameState[i].toUpperCase() : gameState[i] !== gameState[i].toLowerCase();
+            if (i == currentSquare) {
+                continue;
+            }
+            if (gameState[i] === "" || IFF) {
                 valid = true;
-            } else {
+                console.log("valid");
+            }
+            else {
                 valid = false;
+                console.log("invalid");
                 break;
             }
         }

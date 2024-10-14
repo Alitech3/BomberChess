@@ -1,15 +1,10 @@
 import { getDefaultStore } from "jotai";
 import { Data, Active } from "@/atom.js";
 
-export default function validPawnMove(current, destination) {
+export default function validPawnMove(current, destination, whiteSide) {
     const gameData = getDefaultStore().get(Data);
     const userInfo = getDefaultStore().get(Active);
     const gameState = gameData[userInfo.board].state;
-
-    console.log(gameData);
-    const whiteSide = gameData[userInfo.board].white === userInfo.user;
-
-    console.log(userInfo);
 
     let valid = false;
 
@@ -22,27 +17,26 @@ export default function validPawnMove(current, destination) {
     const destinationSquare = destination[2];
 
     const isForwardMove = whiteSide ? destinationRow < currentRow : destinationRow > currentRow; // white moves up, black moves down
-    console.log(destinationSquare);
+
+    const rowDiff = Math.abs(currentRow - destinationRow);
+    const colDiff = Math.abs(currentCol - destinationCol);
 
     // Diagonal capture move
-    // if ((Math.abs(currentCol - destinationCol) === 1) && (Math.abs(currentRow - destinationRow) === 1) && isForwardMove) {
-    //     // Capture opponent's piece
-    //     if (gameState[destinationSquare] !== null && gameState[destinationSquare].color !== userInfo.user) {
-    //         valid = true;
-    //     }
-    // }
+    if (colDiff === 1 && rowDiff === 1 && isForwardMove && gameState[destinationSquare] !== "") {
+        valid = true;
+    }
     // // Single square forward move
-    if ((currentCol === destinationCol) && isForwardMove && (Math.abs(currentRow - destinationRow) === 1)) {
-        console.log(gameState[destinationSquare]);
+    if ((currentCol === destinationCol) && isForwardMove && rowDiff === 1) {
         if (gameState[destinationSquare] === "") { // Square is empty
             valid = true;
         }
     }
     // Initial two-square move
     // need to raise this up and swap math.abs around so we exit sooner
-    else if (currentCol === destinationCol && isForwardMove && Math.abs(currentRow - destinationRow) === 2) {
+    else if (currentCol === destinationCol && isForwardMove && rowDiff === 2) {
         const initialRow = whiteSide ? 6 : 1;
-        const middleSquare = whiteSide ? currentSquare - 8 : currentSquare + 8; // Square in between
+        // javascript type conversion strikes again
+        const middleSquare = whiteSide ? currentSquare - 8 : parseInt(currentSquare) + 8; // Square in between
         if ((currentRow === initialRow) && gameState[destinationSquare] === "" && gameState[middleSquare] === "") {
             valid = true;
         }

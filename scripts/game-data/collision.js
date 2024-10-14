@@ -5,37 +5,31 @@ import validBishopMove from "./validbishop";
 import validQueenMove from "./validqueen";
 import validKnightMove from "./validknight";
 
-export default function collision(touched, currentRow, currentColumn, currentSquare, destinationRow, destinationColumn, destinationSquare) {
-    let collided = false;
+export default function collision(touched, currentRow, currentColumn, currentSquare, destinationRow, destinationColumn, destinationSquare, whiteSide) {
+    let valid = false;
 
     switch (touched.toLowerCase()) {
     case "p":
-        console.log("pawn");
-        collided = validPawnMove([currentRow, currentColumn, currentSquare], [destinationRow, destinationColumn, destinationSquare]);
+        valid = validPawnMove([currentRow, currentColumn, currentSquare], [destinationRow, destinationColumn, destinationSquare], whiteSide);
         break;
     case "r":
-        console.log("rook");
-        collided = validRookMove([currentRow, currentColumn, currentSquare], [destinationRow, destinationColumn, destinationSquare]);
+        valid = validRookMove([currentRow, currentColumn, currentSquare], [destinationRow, destinationColumn, destinationSquare], whiteSide);;
         break;
     case "n":
-        console.log("Knight");
-        collided = validKnightMove([currentRow, currentColumn, currentSquare], [destinationRow, destinationColumn, destinationSquare]);
+        valid = validKnightMove([currentRow, currentColumn, currentSquare], [destinationRow, destinationColumn, destinationSquare], whiteSide);;
         break;
     case "b":
-        console.log("bishop");
-        collided = validBishopMove([currentRow, currentColumn, currentSquare], [destinationRow, destinationColumn, destinationSquare]);
+        valid = validBishopMove([currentRow, currentColumn, currentSquare], [destinationRow, destinationColumn, destinationSquare], whiteSide);;
         break;
     case "q":
-        console.log("queen");
-        collided = validQueenMove([currentRow, currentColumn, currentSquare], [destinationRow, destinationColumn, destinationSquare]);
+        valid = validQueenMove([currentRow, currentColumn, currentSquare], [destinationRow, destinationColumn, destinationSquare], whiteSide);;
         break;
     case "k":
-        console.log("king");
-        collided = validKingMove([currentRow, currentColumn, currentSquare], [destinationRow, destinationColumn, destinationSquare]);
+        valid = validKingMove([currentRow, currentColumn, currentSquare], [destinationRow, destinationColumn, destinationSquare], whiteSide);;
         break;
     default:
         console.log("default");
     }
 
-    return collided;
+    return valid;
 }

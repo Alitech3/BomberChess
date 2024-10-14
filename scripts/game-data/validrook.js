@@ -1,7 +1,7 @@
 import { getDefaultStore } from "jotai";
 import { Data, Active } from "@/atom.js";
 
-export default function validRookMove(current, destination) {
+export default function validRookMove(current, destination, whiteSide) {
     const gameData = getDefaultStore().get(Data);
     const userInfo = getDefaultStore().get(Active);
     const gameState = gameData[userInfo.board].state;
@@ -17,26 +17,39 @@ export default function validRookMove(current, destination) {
     const destinationSquare = destination[2];
 
     if (currentRow === destinationRow) {
-        console.log("here");
-        const colStart = Math.min(currentSquare, destinationSquare)+1;
+        const colStart = Math.min(currentSquare, destinationSquare);
         const colEnd = Math.max(currentSquare, destinationSquare);
-        for (let i = colStart; i <= colEnd; i++) {
-            if (gameState[i] === "") {
+
+        for (let i = colEnd; i >= colStart; i--) {
+            let IFF = whiteSide ? gameState[i] !== gameState[i].toUpperCase() : gameState[i] !== gameState[i].toLowerCase();
+            if (i == currentSquare) {
+                continue;
+            }
+            if (gameState[i] === "" || IFF) {
+                console.log("valid");
                 valid = true;
             } else {
+                console.log("invalid");
                 valid = false;
                 break;
             }
         }
     }
     else if (currentCol === destinationCol) {
-        const rowStart = Math.min(currentSquare, destinationSquare)+1;
+        const rowStart = Math.min(currentSquare, destinationSquare);
         const rowEnd = Math.max(currentSquare, destinationSquare);
 
-        for (let i = rowStart; i < rowEnd; i+=7) {
-            if (gameState[i] === "") {
+        for (let i = rowEnd; i >= rowStart ; i-=8) {
+            console.log(i);
+            let IFF = whiteSide ? gameState[i] !== gameState[i].toUpperCase() : gameState[i] !== gameState[i].toLowerCase();
+            if (i == currentSquare) {
+                continue;
+            }
+            if (gameState[i] === "" || IFF) {
+                console.log("valid");
                 valid = true;
             } else {
+                console.log("invalid");
                 valid = false;
                 break;
             }

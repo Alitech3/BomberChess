@@ -12,11 +12,6 @@ export default function validKnightMove(current, destination) {
     const rowDiff = Math.abs(currentRow - destinationRow);
     const colDiff = Math.abs(currentCol - destinationCol);
 
-    console.log(currentRow);
-    console.log(currentCol);
-    console.log(destinationRow);
-    console.log(destinationCol);
-
     if ((rowDiff === 2 && colDiff === 1) || (rowDiff === 1 && colDiff === 2)) {
         valid = true;
     }

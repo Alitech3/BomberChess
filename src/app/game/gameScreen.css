@@ -19,17 +19,19 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  @apply
+    justify-center
+    select-none
 }
 
 /* Styling for player labels */
-.player-top, .player-bottom {
+.player {
   font-size: 18px;
   font-weight: bold;
   text-align: center;
   color: #ffffff; /* Change color as needed */
   text-shadow: -1px 0px 7px rgba(0, 0, 0, 0.6); /* Shadow for better readability */
 }
-
 #board1 {
   @apply
     flex
@@ -40,6 +42,7 @@
     flex
     flex-wrap
 }
+
 /* Styling for the chess boards */
 .chess-board {
   width: 300px;
@@ -56,7 +59,8 @@
 
 /* Hover effect for the chess board */
 .chess-board:hover {
-  transform: scale(1.05); /* Slightly enlarge the board on hover */
+    @apply 
+      scale-105
 }
 
 /* Larger board styling */
@@ -103,4 +107,13 @@
 .black-square {
   @apply
       bg-amber-900
+}
+
+#board2 {
+  @apply
+    rotate-180
+}
+#board2 > * > *{
+  @apply
+    rotate-180
 }
